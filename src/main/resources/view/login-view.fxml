@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projekt.controller.LoginController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox spacing="15.0" alignment="CENTER"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <Label text="Log in" style="-fx-font-size: 2em; -fx-font-weight: bold;" />
+
+        <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
+
+        <Button fx:id="loginButton" text="Log in" maxWidth="300" onAction="#test"/>
+        <Label text="lub"/>
+        <Button fx:id="googleLoginButton" text="Log in with Google" maxWidth="300" onAction="#handleGoogleLogin"/>
+
+        <Label fx:id="errorLabel" textFill="red" wrapText="true" />
+    </VBox>
+
+</AnchorPane>
