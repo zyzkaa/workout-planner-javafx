@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projekt.controller.PlanListController"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="10">
+
+        <!-- Przycisk dodania nowego treningu -->
+        <HBox alignment="TOP_RIGHT">
+            <Button text="Nowy trening" onAction="#addWorkout"/>
+        </HBox>
+
+        <!-- Lista treningów -->
+        <VBox fx:id="workoutList" spacing="10">
+            <!-- Przykładowy wpis może wyglądać tak:
+            <HBox spacing="10">
+                <Label text="Trening A"/>
+                <Button text="Edytuj"/>
+            </HBox>
+            -->
+        </VBox>
+
+    </VBox>
+</AnchorPane>
+

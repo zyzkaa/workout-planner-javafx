@@ -1,10 +1,9 @@
 package com.example.projekt.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.projekt.WeekDay;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -12,11 +11,18 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Workout {
     @Id
     @GeneratedValue
     private int id;
 
-    @OneToMany
-    private List<Client> clients;
+    @ManyToOne
+    private Plan plan;
+
+    @ManyToMany
+    private List<Exercise> exercises;
+
+    @Enumerated(EnumType.STRING)
+    private WeekDay day;
 }

@@ -1,4 +1,4 @@
 package com.example.projekt.controller;
 
-public class StartController {
+public class DashboardController {
 }

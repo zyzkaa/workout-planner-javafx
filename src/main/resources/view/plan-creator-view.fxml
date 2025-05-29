@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projekt.controller.PlanCreatorController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox spacing="15" >
+
+        <!-- Tytuł i przycisk zapisu -->
+        <HBox spacing="10">
+            <Label text="Plan title:"/>
+            <TextField fx:id="planTitleField" promptText="Add plan title" />
+            <Button text="Zapisz plan" onAction="#handleSavePlan"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Dni tygodnia -->
+        <VBox fx:id="daysBox" spacing="10">
+        </VBox>
+    </VBox>
+
+    <VBox fx:id="workoutBox">
+
+    </VBox>
+
+    <VBox fx:id="exerciseBox">
+
+    </VBox>
+</HBox>

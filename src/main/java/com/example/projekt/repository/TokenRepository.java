@@ -11,7 +11,7 @@ public class TokenRepository {
     private TokenRepository() {}
 
     public void saveToken(Token token) {
-        JpaUtil.doInTransaction(session -> {
+        JpaUtil.doInTransactionVoid(session -> {
             Token oldToken = session.find(Token.class, token.getId());
 
             if (oldToken != null) {

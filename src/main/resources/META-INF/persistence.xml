@@ -2,11 +2,10 @@
              version="3.0">
     <persistence-unit name="database">
         <class>com.example.projekt.model.entity.Client</class>
+        <class>com.example.projekt.model.entity.Plan</class>
         <class>com.example.projekt.model.entity.Workout</class>
-        <class>com.example.projekt.model.entity.Token</class>
+        <class>com.example.projekt.model.entity.Exercise</class>
 
-        <properties>
-            <property name="hibernate.hbm2ddl.auto" value="validate"/> <!-- nadpiszemy to -->
-        </properties>
+
     </persistence-unit>
 </persistence>

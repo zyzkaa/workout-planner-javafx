@@ -2,8 +2,7 @@ package com.example.projekt.util;
 
 import com.example.projekt.model.entity.Client;
 import com.example.projekt.model.entity.Token;
-import com.example.projekt.model.entity.Workout;
-import lombok.Getter;
+import com.example.projekt.model.entity.Plan;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -34,7 +33,7 @@ public class HibernateUtil {
             config.setProperty("hibernate.format_sql", AppConfig.getProperty("hibernate.format_sql"));
 
             config.addAnnotatedClass(Client.class);
-            config.addAnnotatedClass(Workout.class);
+            config.addAnnotatedClass(Plan.class);
             config.addAnnotatedClass(Token.class);
 
 

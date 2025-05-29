@@ -9,6 +9,6 @@ public class ClientRepository {
     private final static ClientRepository instance = new ClientRepository();
 
     public void add(Client client) {
-        JpaUtil.doInTransaction(session -> session.persist(client));
+        JpaUtil.doInTransactionVoid(session -> session.persist(client));
     }
 }

@@ -17,7 +17,8 @@ import javafx.scene.image.Image;
 public class MyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/login-view.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/main-layout.fxml"));
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         double width = screenBounds.getWidth() * 0.8;

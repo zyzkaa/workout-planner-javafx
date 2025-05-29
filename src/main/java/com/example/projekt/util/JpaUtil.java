@@ -4,13 +4,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class JpaUtil {
     private static final EntityManagerFactory emf = buildEntityManagerFactory();
@@ -32,7 +30,7 @@ public class JpaUtil {
         return emf.createEntityManager();
     }
 
-    public static void doInTransaction(Consumer<EntityManager> action) {
+    public static void doInTransactionVoid(Consumer<EntityManager> action) {
         EntityManager em = getEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -40,6 +38,23 @@ public class JpaUtil {
             tx.begin();
             action.accept(em);
             tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException(e);
+        } finally {
+            em.close();
+        }
+    }
+
+    public static <T> T doInTransaction(Function<EntityManager, T> action) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            T result = action.apply(em);
+            tx.commit();
+            return result;
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException(e);

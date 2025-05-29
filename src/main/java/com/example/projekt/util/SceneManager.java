@@ -36,6 +36,6 @@ public class SceneManager {
     @Subscribe
     public void onUserLogin(UserLoginEvent event) {
         System.out.println("halo zlapaned zdarzenie");
-        changeScene("/view/start-view.fxml");
+        changeScene("/view/main-layout.fxml");
     }
 }
