@@ -9,8 +9,23 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projekt.controller.ExercisesListController"
       prefHeight="400.0" prefWidth="600.0">
 
-    <Text text="asdasdasdasdasda"></Text>
+    <Text text="Wybierz część ciała:"/>
+    <ComboBox fx:id="bodyPartsComboBox"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Wyszukaj ćwiczenie..."/>
+        <Button fx:id="searchButton" text="Szukaj" />
+        <Button fx:id="clearButton" text="Wyczyść" />
+    </HBox>
+
+    <ListView fx:id="exercisesListView" layoutX="20" layoutY="100" prefWidth="300" prefHeight="400"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="prevButton" text="← Poprzednie"/>
+        <Button fx:id="nextButton" text="Następne →"/>
+    </HBox>
 
 </VBox>

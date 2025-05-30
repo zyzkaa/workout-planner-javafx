@@ -45,13 +45,20 @@ public class PlanCreatorController {
             exerciseList.setVisible(false);
             exerciseBox.getChildren().add(exerciseList);
 
-            workoutBox.getChildren().addListener((ListChangeListener<Node>) change -> {
-                while (change.next()) {
-                    if (change.wasAdded()) {
-                        exerciseList.setVisible(true);
+            ListChangeListener<Node> listener = new ListChangeListener<>() {
+                @Override
+                public void onChanged(Change<? extends Node> change) {
+                    while (change.next()) {
+                        if (change.wasAdded()) {
+                            exerciseList.setVisible(true);
+                            workoutBox.getChildren().removeListener(this);
+                            break;
+                        }
                     }
                 }
-            });
+            };
+
+            workoutBox.getChildren().addListener(listener);
 
         } catch (IOException e) {
             e.printStackTrace();
