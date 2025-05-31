@@ -15,10 +15,10 @@
     <Text text="Wybierz część ciała:"/>
     <ComboBox fx:id="bodyPartsComboBox"/>
 
-    <HBox spacing="10">
-        <TextField fx:id="searchField" promptText="Wyszukaj ćwiczenie..."/>
-        <Button fx:id="searchButton" text="Szukaj" />
-        <Button fx:id="clearButton" text="Wyczyść" />
+    <HBox spacing="10" fx:id="inputBox">
+
+<!--        <Button fx:id="searchButton" text="Szukaj" />-->
+<!--        <Button fx:id="clearButton" text="Wyczyść" />-->
     </HBox>
 
     <ListView fx:id="exercisesListView" layoutX="20" layoutY="100" prefWidth="300" prefHeight="400"/>

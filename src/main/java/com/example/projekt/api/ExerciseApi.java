@@ -21,4 +21,6 @@ public interface ExerciseApi {
     @GET("bodyparts")
     Call<WorkoutResponse<List<BodyPartsDto>>> getBodyParts();
 
+    @GET("exercises")
+    Call<WorkoutResponse<ExercisePage>> getExercisesBySearch(@Query("search") String search, @Query("limit") int limit, @Query("offset") int offset);
 }

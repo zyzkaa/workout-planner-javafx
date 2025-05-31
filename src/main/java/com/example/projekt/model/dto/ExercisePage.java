@@ -7,4 +7,5 @@ import java.util.List;
 @Getter
 public class ExercisePage {
     private List<ExerciseDto> exercises;
+    private int totalPages;
 }
