@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Workout {
     private Plan plan;
 
     @ManyToMany
+    @Cascade(CascadeType.ALL)
     private List<Exercise> exercises;
 
     @Enumerated(EnumType.STRING)

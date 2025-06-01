@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-// wywal empty choice?
-// przy wyszukiwarce, po sekundzie rzuca zdarzenie do wyslania requesta
+
 public class ExercisesListController {
     private final ObservableList<ExerciseDto> exercises = FXCollections.observableArrayList();
     List<BodyPartsDto> bodyParts;
@@ -61,8 +60,6 @@ public class ExercisesListController {
     }
 
     public void initialize() {
-        fetchBodyParts();
-
         exerciseInput = new DebounceInput(ExerciseSearchEvent.class);
         inputBox.getChildren().add(exerciseInput);
         inputBox.addEventHandler(ExerciseSearchEvent.eventType, event -> {
@@ -77,7 +74,6 @@ public class ExercisesListController {
         exercisesListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
                 int index = exercisesListView.getSelectionModel().getSelectedIndex();
-                System.out.println(exercises.get(index).getName());
                 onExerciseSelected.accept(exercises.get(index));
             }
         });
@@ -100,9 +96,6 @@ public class ExercisesListController {
             });
         });
 
-        nextButton.setDisable(true);
-        prevButton.setDisable(true);
-
         nextButton.setOnAction(event -> {
             if(currentSearchFunc == null) return;
             if(offset >= maxOffset) return;
@@ -116,6 +109,9 @@ public class ExercisesListController {
             offset--;
             reloadExercises();
         });
+
+        disableButtons();
+        fetchBodyParts();
     }
 
     private void reloadExercises() {
@@ -125,7 +121,6 @@ public class ExercisesListController {
                 .supplyAsync(currentSearchFunc)
                 .thenAccept(fetched -> {
                     maxOffset = fetched.getData().getTotalPages() - 1;
-                    System.out.println("total pages = " + maxOffset);
                     Platform.runLater(() -> {
                         exercises.setAll(fetched.getData().getExercises());
                     });
@@ -166,6 +161,7 @@ public class ExercisesListController {
                         bodyParts.forEach(bp -> bodyPartsComboBox.getItems().add(bp.getName()));
                         bodyPartsComboBox.getItems().add(emptyChoice);
                         bodyPartsComboBox.getSelectionModel().select(emptyChoice);
+                        enableButtons();
                     });
                 } else {
                     System.out.println("Error: " + response.errorBody().string());

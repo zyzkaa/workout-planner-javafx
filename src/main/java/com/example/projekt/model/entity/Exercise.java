@@ -13,7 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Exercise {
     @Id
-    @GeneratedValue
-    private int id;
+    private String id;
     private String name;
 }

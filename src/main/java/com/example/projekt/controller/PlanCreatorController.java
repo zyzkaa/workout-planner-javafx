@@ -1,6 +1,7 @@
 package com.example.projekt.controller;
 import com.example.projekt.WeekDay;
 import com.example.projekt.event.ChangeViewEvent;
+import com.example.projekt.service.PlanService;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
@@ -32,6 +33,7 @@ public class PlanCreatorController {
     @FXML
     private VBox exerciseBox;
     private ExercisesListController exercisesListController;
+
 
     IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
 
@@ -68,19 +70,11 @@ public class PlanCreatorController {
             e.printStackTrace();
         }
 
-//        try {
-//            FXMLLoader workoutLoader = new FXMLLoader(getClass().getResource("/view/workout-creator-view.fxml"));
-//            Node workoutBoxLoaded = workoutLoader.load();
-//            workoutCreatorController = workoutLoader.getController();
-//            workoutBox.getChildren().add(workoutBoxLoaded);
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
         exercisesListController.setOnExerciseSelected(exercise -> {
             workoutControllerMap.get(currentDay).addExercise(exercise);
         });
+
+
     }
 
     private VBox createDayPane(WeekDay day) {
@@ -109,8 +103,15 @@ public class PlanCreatorController {
     @FXML
     private void handleSavePlan() {
         String title = planTitleField.getText();
-        System.out.println("Zapisuję plan: " + title);
-        // dodaj walidację i zapis do bazy
+        Thread.startVirtualThread(() -> {
+            try{
+                // idz do ogladania po przekazaniu controller map
+                PlanService.getInstance().addPlan(workoutControllerMap, title.isEmpty() ? "trening" : title);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+//        daysBox.fireEvent(new ChangeViewEvent("/view/plan-list-view.fxml"));
     }
 
 

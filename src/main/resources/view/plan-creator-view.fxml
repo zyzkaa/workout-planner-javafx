@@ -13,7 +13,6 @@
 
     <VBox spacing="15" >
 
-        <!-- Tytuł i przycisk zapisu -->
         <HBox spacing="10">
             <Label text="Plan title:"/>
             <TextField fx:id="planTitleField" promptText="Add plan title" />

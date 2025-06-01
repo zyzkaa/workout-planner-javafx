@@ -31,8 +31,6 @@ public class PlanListController {
             Label label = new Label(plan.getTitle());
             Button editButton = new Button("Edytuj");
 
-//          editButton.setOnAction(e -> handleEdit(plan));
-
             row.getChildren().addAll(label, editButton);
             workoutList.getChildren().add(row);
         });
