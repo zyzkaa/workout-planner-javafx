@@ -18,18 +18,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class PlanCreatorController {
     @FXML
     private TextField planTitleField;
     @FXML
     private VBox workoutBox;
+    private Map<WeekDay, WorkoutCreatorController> workoutControllerMap = new EnumMap<WeekDay, WorkoutCreatorController>(WeekDay.class);
+    private WeekDay currentDay;
     @FXML
     private VBox daysBox;
     @FXML
     private VBox exerciseBox;
+    private ExercisesListController exercisesListController;
 
     IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
 
@@ -41,16 +43,18 @@ public class PlanCreatorController {
         });
 
         try {
-            VBox exerciseList = FXMLLoader.load(getClass().getResource("/view/exercises-list-view.fxml"));
-            exerciseList.setVisible(false);
-            exerciseBox.getChildren().add(exerciseList);
+            FXMLLoader exerciseLoader = new FXMLLoader(getClass().getResource("/view/exercises-list-view.fxml"));
+            Node exerciseBoxLoaded = exerciseLoader.load();
+            exerciseBoxLoaded.setVisible(false);
+            exercisesListController = exerciseLoader.getController();
+            exerciseBox.getChildren().add(exerciseBoxLoaded);
 
             ListChangeListener<Node> listener = new ListChangeListener<>() {
                 @Override
                 public void onChanged(Change<? extends Node> change) {
                     while (change.next()) {
                         if (change.wasAdded()) {
-                            exerciseList.setVisible(true);
+                            exerciseBoxLoaded.setVisible(true);
                             workoutBox.getChildren().removeListener(this);
                             break;
                         }
@@ -63,6 +67,20 @@ public class PlanCreatorController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        try {
+//            FXMLLoader workoutLoader = new FXMLLoader(getClass().getResource("/view/workout-creator-view.fxml"));
+//            Node workoutBoxLoaded = workoutLoader.load();
+//            workoutCreatorController = workoutLoader.getController();
+//            workoutBox.getChildren().add(workoutBoxLoaded);
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        exercisesListController.setOnExerciseSelected(exercise -> {
+            workoutControllerMap.get(currentDay).addExercise(exercise);
+        });
     }
 
     private VBox createDayPane(WeekDay day) {
@@ -95,25 +113,37 @@ public class PlanCreatorController {
         // dodaj walidację i zapis do bazy
     }
 
-    @FXML
-    private void handleCancel() {
-        planTitleField.fireEvent(new ChangeViewEvent("/view/plan-list-view.fxml"));
+
+    private WorkoutCreatorController addWorkoutToMap(){
+        FXMLLoader workoutLoader = new FXMLLoader(getClass().getResource("/view/workout-creator-view.fxml"));
+        WorkoutCreatorController workoutController = new WorkoutCreatorController(currentDay.getDisplayName());
+        workoutLoader.setController(workoutController);
+        try {
+            Node loaded = workoutLoader.load();
+            return workoutController;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void displayWorkout(WorkoutCreatorController controller){
+        try {
+            workoutBox.getChildren().clear();
+            workoutBox.getChildren().add(controller.getRoot());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleAddWorkout(javafx.event.ActionEvent event) {
         Button source = (Button) event.getSource();
         int dayNumber = Integer.parseInt(source.getUserData().toString());
+        currentDay = WeekDay.fromNumber(dayNumber);
 
+        WorkoutCreatorController currentDayController = workoutControllerMap.computeIfAbsent(currentDay, k -> addWorkoutToMap());
+        displayWorkout(currentDayController);
         selectedDayNumber.set(dayNumber);
-
-        workoutBox.getChildren().clear();
-        try {
-            Pane workoutPane = FXMLLoader.load(getClass().getResource("/view/workout-creator-view.fxml"));
-            workoutBox.getChildren().add(workoutPane);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

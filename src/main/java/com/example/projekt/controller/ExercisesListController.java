@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 // wywal empty choice?
 // przy wyszukiwarce, po sekundzie rzuca zdarzenie do wyslania requesta
@@ -53,6 +54,12 @@ public class ExercisesListController {
     private final int ROW_HEIGHT = 30;
     private String currentSearchString = "";
 
+    private Consumer<ExerciseDto> onExerciseSelected;
+
+    public void setOnExerciseSelected(Consumer<ExerciseDto> callback) {
+        this.onExerciseSelected = callback;
+    }
+
     public void initialize() {
         fetchBodyParts();
 
@@ -71,6 +78,7 @@ public class ExercisesListController {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
                 int index = exercisesListView.getSelectionModel().getSelectedIndex();
                 System.out.println(exercises.get(index).getName());
+                onExerciseSelected.accept(exercises.get(index));
             }
         });
 

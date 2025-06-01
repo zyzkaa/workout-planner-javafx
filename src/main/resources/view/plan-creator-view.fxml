@@ -9,7 +9,7 @@
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.projekt.controller.PlanCreatorController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" minWidth="1000.0">
 
     <VBox spacing="15" >
 
