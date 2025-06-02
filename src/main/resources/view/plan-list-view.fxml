@@ -4,27 +4,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.projekt.controller.PlanListController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox spacing="10">
+<?import java.net.URL?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projekt.controller.PlanListController"
+      prefHeight="600.0" prefWidth="800.0"
+      style="-fx-background-color: #f5f6fa;">
 
-        <!-- Przycisk dodania nowego treningu -->
-        <HBox alignment="TOP_RIGHT">
-            <Button text="Nowy trening" onAction="#addWorkout"/>
+    <VBox maxWidth="500" spacing="20" HBox.hgrow="ALWAYS" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10">
+            <Label text="Your Plans"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+                    />
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="➕ New Plan"
+                    onAction="#addWorkout"
+                    style="-fx-background-color: linear-gradient(to bottom, #27ae60, #229954); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-cursor: hand; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);"/>
         </HBox>
 
-        <!-- Lista treningów -->
-        <VBox fx:id="workoutList" spacing="10">
-            <!-- Przykładowy wpis może wyglądać tak:
-            <HBox spacing="10">
-                <Label text="Trening A"/>
-                <Button text="Edytuj"/>
-            </HBox>
-            -->
-        </VBox>
+        <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="workoutList" VBox.vgrow="ALWAYS" spacing="10"
+                  style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
+            </VBox>
+        </ScrollPane>
 
     </VBox>
-</AnchorPane>
 
+    <VBox fx:id="planBox">
+
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../css/plan-creator.css"/>
+    </stylesheets>
+</HBox>

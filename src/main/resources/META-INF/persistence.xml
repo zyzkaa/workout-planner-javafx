@@ -5,7 +5,8 @@
         <class>com.example.projekt.model.entity.Plan</class>
         <class>com.example.projekt.model.entity.Workout</class>
         <class>com.example.projekt.model.entity.Exercise</class>
-
+        <class>com.example.projekt.model.entity.ExerciseDetails</class>
+        <class>com.example.projekt.model.entity.Token</class>
 
     </persistence-unit>
 </persistence>

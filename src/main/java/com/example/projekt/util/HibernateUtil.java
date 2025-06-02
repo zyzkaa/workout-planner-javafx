@@ -1,8 +1,6 @@
 package com.example.projekt.util;
 
-import com.example.projekt.model.entity.Client;
-import com.example.projekt.model.entity.Token;
-import com.example.projekt.model.entity.Plan;
+import com.example.projekt.model.entity.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -35,6 +33,9 @@ public class HibernateUtil {
             config.addAnnotatedClass(Client.class);
             config.addAnnotatedClass(Plan.class);
             config.addAnnotatedClass(Token.class);
+            config.addAnnotatedClass(Exercise.class);
+            config.addAnnotatedClass(ExerciseDetails.class);
+            config.addAnnotatedClass(Workout.class);
 
 
             var serviceRegistry = new StandardServiceRegistryBuilder()

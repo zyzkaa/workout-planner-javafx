@@ -15,4 +15,8 @@ public class ExerciseRepository {
         if (list.isEmpty()) return null;
         return list.getFirst();
     }
+
+    public void add(Exercise exercise) {
+        JpaUtil.doInTransactionVoid(session -> session.persist(exercise));
+    }
 }

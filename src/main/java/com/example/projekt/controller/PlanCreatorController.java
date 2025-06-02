@@ -8,16 +8,13 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
+import javafx.geometry.Pos;
 import java.io.IOException;
 import java.util.*;
 
@@ -40,6 +37,8 @@ public class PlanCreatorController {
 
     @FXML
     public void initialize() {
+        planTitleField.getStyleClass().add("styled-text-field");
+
         Arrays.stream(WeekDay.values()).forEach(day -> {
             daysBox.getChildren().add(createDayPane(day));
         });
@@ -73,40 +72,98 @@ public class PlanCreatorController {
         exercisesListController.setOnExerciseSelected(exercise -> {
             workoutControllerMap.get(currentDay).addExercise(exercise);
         });
-
-
     }
 
     private VBox createDayPane(WeekDay day) {
         Label titleLabel = new Label(day.getDisplayName());
-        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-background-color: #dddddd; -fx-padding: 5;");
+        titleLabel.getStyleClass().add("day-title");
+        titleLabel.setAlignment(Pos.CENTER);
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
 
-        Button addButton = new Button("Add workout");
+        Button addButton = new Button("+ Add Workout");
         addButton.setUserData(day.getNumber());
         addButton.setOnAction(this::handleAddWorkout);
+        addButton.setMaxWidth(Double.MAX_VALUE);
+        addButton.getStyleClass().add("add-workout-button");
 
-        VBox container = new VBox(titleLabel, addButton);
-        container.setSpacing(5);
-        container.setPadding(new Insets(5));
+        Label statusLabel = new Label("No workout");
+        statusLabel.getStyleClass().add("status-label");
+        statusLabel.setAlignment(Pos.CENTER);
+        statusLabel.setMaxWidth(Double.MAX_VALUE);
+
+        VBox container = new VBox();
+        container.setSpacing(0);
+        container.setAlignment(Pos.TOP_CENTER);
+        container.getChildren().addAll(titleLabel, statusLabel, addButton);
+        container.getStyleClass().add("day-card");
 
         selectedDayNumber.addListener((observable, oldValue, newValue) -> {
-            if(day.getNumber() == newValue.intValue()) {
-                container.setStyle("-fx-background-color: #d766af;");
+            if (day.getNumber() == newValue.intValue()) {
+                container.getStyleClass().removeAll("day-card");
+                container.getStyleClass().add("day-card-selected");
+
+                titleLabel.getStyleClass().removeAll("day-title");
+                titleLabel.getStyleClass().add("day-title-selected");
+
+                if (workoutControllerMap.containsKey(day)) {
+                    statusLabel.setText("Workout added ✓");
+                    statusLabel.getStyleClass().removeAll("status-label", "status-label-prompt");
+                    statusLabel.getStyleClass().add("status-label-added");
+                } else {
+                    statusLabel.setText("Click to add workout");
+                    statusLabel.getStyleClass().removeAll("status-label", "status-label-added");
+                    statusLabel.getStyleClass().add("status-label-prompt");
+                }
             } else {
-                container.setStyle("");
+                container.getStyleClass().removeAll("day-card-selected");
+                container.getStyleClass().add("day-card");
+
+                titleLabel.getStyleClass().removeAll("day-title-selected");
+                titleLabel.getStyleClass().add("day-title");
+
+                if (workoutControllerMap.containsKey(day)) {
+                    statusLabel.setText("Workout added ✓");
+                    statusLabel.getStyleClass().removeAll("status-label", "status-label-prompt");
+                    statusLabel.getStyleClass().add("status-label-added");
+                } else {
+                    statusLabel.setText("No workout");
+                    statusLabel.getStyleClass().removeAll("status-label-added", "status-label-prompt");
+                    statusLabel.getStyleClass().add("status-label");
+                }
             }
         });
 
         return container;
     }
 
+    private void showErrorAlert(String messae) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("error");
+        alert.setHeaderText(null);
+        alert.setContentText(messae);
+        alert.showAndWait();
+    }
+
     @FXML
     private void handleSavePlan() {
+        boolean isValid = workoutControllerMap.values().stream()
+                        .allMatch(WorkoutCreatorController::validate);
+        if(!isValid) {
+            showErrorAlert("sets and reps values cannot be empty");
+            return;
+        }
+
         String title = planTitleField.getText();
+
+        if(title.isEmpty()){
+            showErrorAlert("title cannot be empty");
+            return;
+        }
+
         Thread.startVirtualThread(() -> {
             try{
                 // idz do ogladania po przekazaniu controller map
-                PlanService.getInstance().addPlan(workoutControllerMap, title.isEmpty() ? "trening" : title);
+                PlanService.getInstance().addPlan(workoutControllerMap, title);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -138,6 +195,10 @@ public class PlanCreatorController {
 
     @FXML
     private void handleAddWorkout(javafx.event.ActionEvent event) {
+        if(currentDay != null && workoutControllerMap.get(currentDay).isEmpty()){
+            workoutControllerMap.remove(currentDay);
+        }
+
         Button source = (Button) event.getSource();
         int dayNumber = Integer.parseInt(source.getUserData().toString());
         currentDay = WeekDay.fromNumber(dayNumber);

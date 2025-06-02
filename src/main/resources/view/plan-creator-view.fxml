@@ -6,31 +6,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <HBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.projekt.controller.PlanCreatorController"
-            prefHeight="400.0" minWidth="1000.0">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projekt.controller.PlanCreatorController"
+      prefHeight="400.0" minWidth="1000.0"
+      style="-fx-background-color: #f5f6fa;">
 
-    <VBox spacing="15" >
+    <VBox spacing="15" style="-fx-padding: 20;">
 
-        <HBox spacing="10">
-            <Label text="Plan title:"/>
-            <TextField fx:id="planTitleField" promptText="Add plan title" />
-            <Button text="Zapisz plan" onAction="#handleSavePlan"/>
+        <HBox spacing="15" alignment="CENTER_LEFT"
+              style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
+            <Label text="Plan title:"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <TextField fx:id="planTitleField"
+                       promptText="Enter your workout plan title"
+                       prefWidth="300"
+                       style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 13px;"/>
+            <Button text="Save Plan"
+                    onAction="#handleSavePlan"
+                    style="-fx-background-color: linear-gradient(to bottom, #27ae60, #229954); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-cursor: hand; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);"
+                    />
         </HBox>
 
-        <Separator/>
+        <Separator style="-fx-background-color: #e1e8ed;"/>
 
-        <!-- Dni tygodnia -->
-        <VBox fx:id="daysBox" spacing="10">
+        <VBox>
+            <Label text="Weekly Schedule"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 10 0;"/>
+            <VBox fx:id="daysBox"
+                  spacing="8"
+                  styleClass="days-container"
+                  style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #e1e8ed; -fx-border-radius: 8;">
+            </VBox>
         </VBox>
     </VBox>
 
-    <VBox fx:id="workoutBox">
-
+    <VBox fx:id="workoutBox"
+          VBox.vgrow="ALWAYS"
+          HBox.hgrow="ALWAYS"
+          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2); -fx-min-width: 400;">
     </VBox>
 
-    <VBox fx:id="exerciseBox">
-
+    <VBox fx:id="exerciseBox"
+          VBox.vgrow="ALWAYS"
+          HBox.hgrow="ALWAYS"
+          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2); -fx-min-width: 300;">
     </VBox>
+
+    <stylesheets>
+        <URL value="@../css/plan-creator.css"/>
+    </stylesheets>
 </HBox>

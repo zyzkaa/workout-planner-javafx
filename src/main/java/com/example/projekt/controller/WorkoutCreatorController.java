@@ -11,12 +11,19 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class WorkoutCreatorController {
     @FXML
     private VBox exercisesBox;
+
+    @FXML
+    private VBox root;
 
     @FXML
     private Text text;
@@ -28,24 +35,54 @@ public class WorkoutCreatorController {
         this.text.setText(text);
     }
 
-    public WorkoutCreatorController() {}
-
     public WorkoutCreatorController(String text){
         initialText = text;
     }
 
     public Node getRoot(){
-        return exercisesBox;
+        return root;
     }
 
     public void addExercise(ExerciseDto newExercise){
+        if(exercises.contains(newExercise)){
+            return;
+        }
         exercises.add(newExercise);
-//        exercisesBox.getChildren().add(new ExerciseInput(newExercise.getName()));
     }
 
     public List<ExerciseDto> getExercises(){
         return exercises;
-//        return exercises.stream().toList();
+    }
+
+    public boolean validate(){
+        List<Node> nodes = new ArrayList<>(exercisesBox.getChildren());
+        nodes.removeFirst();
+        return nodes.stream()
+                        .map(exercise -> (ExerciseInput) exercise)
+                        .allMatch(ExerciseInput::validate);
+    }
+
+    @Getter
+    public class ExerciseWithData{
+        ExerciseDto exercise;
+        int sets;
+        int reps;
+
+        public ExerciseWithData(ExerciseDto exercise, int sets, int reps) {
+            this.exercise = exercise;
+            this.sets = sets;
+            this.reps = reps;
+        }
+    }
+
+    public List<ExerciseWithData> getExercisesWithData(){
+        List<ExerciseWithData> exercisesWithData = new ArrayList<>();
+        List<Node> nodes = exercisesBox.getChildren();
+        IntStream.range(0, exercises.size()).forEach(index -> {
+            ExerciseInput currentNode = (ExerciseInput) nodes.get(index + 1);
+            exercisesWithData.add(new ExerciseWithData(exercises.get(index), currentNode.getSets(), currentNode.getReps()));
+        });
+        return exercisesWithData;
     }
 
     public void initialize() {
@@ -58,11 +95,27 @@ public class WorkoutCreatorController {
                     if(addedExercises.size() > 1) {
                         throw new IllegalStateException("More than one exercise was added");
                     }
-                    exercisesBox.getChildren().add(
-                            new ExerciseInput(addedExercises.getFirst().getName())
+                    ExerciseDto exercise = addedExercises.getFirst();
+                    ExerciseInput newExerciseInput = new ExerciseInput(exercise.getName());
+
+                    newExerciseInput.setOnDelete(() -> exercises.remove(exercise));
+                    exercisesBox.getChildren().add(newExerciseInput);
+                }
+                if(change.wasRemoved()) {
+                    List<? extends ExerciseDto> removedExercises = change.getRemoved();
+                    if(removedExercises.size() > 1) {
+                        throw new IllegalStateException("More than one exercise was removed");
+                    }
+                    ExerciseDto removedExercise = removedExercises.getFirst();
+                    exercisesBox.getChildren().removeIf(node ->
+                            node instanceof ExerciseInput && ((ExerciseInput) node).getExerciseName().equals(removedExercise.getName())
                     );
                 }
             }
         });
+    }
+
+    public boolean isEmpty() {
+        return exercises.isEmpty();
     }
 }

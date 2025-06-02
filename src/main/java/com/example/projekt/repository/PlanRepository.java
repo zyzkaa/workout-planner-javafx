@@ -15,6 +15,6 @@ public class PlanRepository {
     }
 
     public List<Plan> findAll() {
-        return JpaUtil.doInTransaction(session -> session.createQuery("from Plan", Plan.class).getResultList());
+        return JpaUtil.doInTransaction(session -> session.createQuery("from Plan order by id asc", Plan.class).getResultList());
     }
 }

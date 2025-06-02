@@ -34,10 +34,14 @@ public class MainLayoutController {
     private void setContent(String fxmlPath) {
         try {
             var resource = getClass().getResource(fxmlPath);
-            if (resource == null) {
-                return;
-            }
+            if (resource == null) return;
             Node node = FXMLLoader.load(resource);
+
+            AnchorPane.setTopAnchor(node, 0.0);
+            AnchorPane.setBottomAnchor(node, 0.0);
+            AnchorPane.setLeftAnchor(node, 0.0);
+            AnchorPane.setRightAnchor(node, 0.0);
+
             contentPane.getChildren().setAll(node);
         } catch (IOException e) {
             e.printStackTrace();

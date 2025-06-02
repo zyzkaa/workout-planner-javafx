@@ -3,6 +3,7 @@ package com.example.projekt.service;
 import com.example.projekt.WeekDay;
 import com.example.projekt.controller.WorkoutCreatorController;
 import com.example.projekt.model.entity.Exercise;
+import com.example.projekt.model.entity.ExerciseDetails;
 import com.example.projekt.model.entity.Plan;
 import com.example.projekt.model.entity.Workout;
 import com.example.projekt.repository.ExerciseRepository;
@@ -29,13 +30,18 @@ public class PlanService {
     public void addPlan(Map<WeekDay, WorkoutCreatorController> workoutMap, String title) {
         List<Workout> workoutList = new ArrayList<>();
         workoutMap.forEach((weekDay, workoutCreator) -> {
-            List<Exercise> exerciseList = new ArrayList<>();
-            workoutCreator.getExercises().forEach(exercise -> {
-                Exercise exerciseFetched = exerciseRepositoryInstance.findById(exercise.getExerciseId());
+            List<ExerciseDetails> exerciseList = new ArrayList<>();
+            workoutCreator.getExercisesWithData().forEach(exercise -> {
+                Exercise exerciseFetched = exerciseRepositoryInstance.findById(exercise.getExercise().getExerciseId());
                 if(exerciseFetched == null) {
-                    exerciseFetched = ExerciseMapper.fromDto(exercise);
+                    exerciseFetched = ExerciseMapper.fromDto(exercise.getExercise());
+                    exerciseRepositoryInstance.add(exerciseFetched);
                 }
-                exerciseList.add(exerciseFetched);
+                ExerciseDetails exerciseDetails = new ExerciseDetails();
+                exerciseDetails.setExercise(exerciseFetched);
+                exerciseDetails.setRepetitions(exercise.getReps());
+                exerciseDetails.setSets(exercise.getSets());
+                exerciseList.add(exerciseDetails);
             });
             Workout workout = new Workout();
             workout.setExercises(exerciseList);

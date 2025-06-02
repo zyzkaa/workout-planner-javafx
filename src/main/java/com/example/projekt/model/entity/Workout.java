@@ -22,9 +22,9 @@ public class Workout {
     @ManyToOne
     private Plan plan;
 
-    @ManyToMany
-    @Cascade(CascadeType.ALL)
-    private List<Exercise> exercises;
+    @OneToMany
+    @Cascade({CascadeType.ALL})
+    private List<ExerciseDetails> exercises;
 
     @Enumerated(EnumType.STRING)
     private WeekDay day;
