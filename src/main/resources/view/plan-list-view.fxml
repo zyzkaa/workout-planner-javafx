@@ -21,20 +21,24 @@
             <Region HBox.hgrow="ALWAYS"/>
 
             <Button text="➕ New Plan"
-                    onAction="#addWorkout"
+                    onAction="#handleAddPlan"
                     style="-fx-background-color: linear-gradient(to bottom, #27ae60, #229954); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-cursor: hand; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);"/>
         </HBox>
 
         <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
-            <VBox fx:id="workoutList" VBox.vgrow="ALWAYS" spacing="10"
+            <VBox fx:id="planList" VBox.vgrow="ALWAYS" spacing="10"
                   style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
             </VBox>
         </ScrollPane>
 
     </VBox>
 
-    <VBox fx:id="planBox">
-
+    <VBox fx:id="planBox" HBox.hgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="planDisplay" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10"
+                  style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
+            </VBox>
+        </ScrollPane>
     </VBox>
 
     <stylesheets>

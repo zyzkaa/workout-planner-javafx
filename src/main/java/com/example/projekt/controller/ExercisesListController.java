@@ -15,6 +15,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import lombok.NoArgsConstructor;
 import retrofit2.Response;
 import javafx.application.Platform;
 
@@ -24,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-
+@NoArgsConstructor
 public class ExercisesListController {
     private final ObservableList<ExerciseDto> exercises = FXCollections.observableArrayList();
     List<BodyPartsDto> bodyParts;
@@ -61,16 +64,22 @@ public class ExercisesListController {
 
     public void initialize() {
         exerciseInput = new DebounceInput(ExerciseSearchEvent.class);
+        VBox.setVgrow(exerciseInput, Priority.ALWAYS);
+        HBox.setHgrow(exerciseInput, Priority.ALWAYS);
+
         inputBox.getChildren().add(exerciseInput);
         inputBox.addEventHandler(ExerciseSearchEvent.eventType, event -> {
-            bodyPartsComboBox.setValue(emptyChoice);
             currentSearchString = event.getValue();
+
+            if(currentSearchString.isEmpty()) return;
+
+            bodyPartsComboBox.setValue(emptyChoice);
             currentSearchFunc = this::fetchExercisesBySearch;
             reloadExercises();
         });
 
         exercisesListView.setFixedCellSize(ROW_HEIGHT);
-        exercisesListView.setPrefHeight((limit + 1) * ROW_HEIGHT);
+        exercisesListView.setPrefHeight(limit * (ROW_HEIGHT + 0.5));
         exercisesListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
                 int index = exercisesListView.getSelectionModel().getSelectedIndex();

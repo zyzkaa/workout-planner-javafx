@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,11 +20,11 @@ public class Workout {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @OneToMany
-    @Cascade({CascadeType.ALL})
-    private List<ExerciseDetails> exercises;
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ExerciseDetails> exercises;
 
     @Enumerated(EnumType.STRING)
     private WeekDay day;

@@ -25,8 +25,8 @@
         <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
         <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
 
-        <Button fx:id="loginButton" text="Log in" maxWidth="300" onAction="#test"/>
-        <Label text="lub"/>
+<!--        <Button fx:id="loginButton" text="Log in" maxWidth="300" onAction="#test"/>-->
+<!--        <Label text="lub"/>-->
         <Button fx:id="googleLoginButton" text="Log in with Google" maxWidth="300" onAction="#handleGoogleLogin"/>
 
         <Label fx:id="errorLabel" textFill="red" wrapText="true" />

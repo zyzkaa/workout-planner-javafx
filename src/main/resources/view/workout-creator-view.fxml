@@ -10,15 +10,16 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      prefHeight="400.0" prefWidth="600.0"
       fx:id="root"
       VBox.vgrow="ALWAYS"
+      HBox.hgrow="ALWAYS"
       spacing="10.0"
+      alignment="CENTER"
       style="-fx-background-color: #f8f9fa; -fx-padding: 20;">
 
     <Text fx:id="text"
           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50; -fx-text-alignment: center;"
-          wrappingWidth="560.0">
+          >
     </Text>
 
     <ScrollPane fitToWidth="true"

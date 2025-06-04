@@ -1,16 +1,14 @@
 package com.example.projekt.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,12 +18,13 @@ public class Plan {
     @GeneratedValue
     private int id;
 
-    @OneToMany
-    private List<Client> clients = new ArrayList<>();
+//    @OneToMany
+//    private List<Client> clients = new ArrayList<>();
 
     private String title;
 
-    @OneToMany
-    @Cascade(CascadeType.ALL)
-    private List<Workout> workouts;
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Workout> workouts;
+
+    private Date added;
 }

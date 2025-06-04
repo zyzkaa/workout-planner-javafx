@@ -56,7 +56,6 @@ public class WorkoutCreatorController {
 
     public boolean validate(){
         List<Node> nodes = new ArrayList<>(exercisesBox.getChildren());
-        nodes.removeFirst();
         return nodes.stream()
                         .map(exercise -> (ExerciseInput) exercise)
                         .allMatch(ExerciseInput::validate);
@@ -76,13 +75,13 @@ public class WorkoutCreatorController {
     }
 
     public List<ExerciseWithData> getExercisesWithData(){
-        List<ExerciseWithData> exercisesWithData = new ArrayList<>();
         List<Node> nodes = exercisesBox.getChildren();
-        IntStream.range(0, exercises.size()).forEach(index -> {
-            ExerciseInput currentNode = (ExerciseInput) nodes.get(index + 1);
-            exercisesWithData.add(new ExerciseWithData(exercises.get(index), currentNode.getSets(), currentNode.getReps()));
-        });
-        return exercisesWithData;
+        return IntStream.range(0, exercises.size())
+                .mapToObj(index -> {
+                    ExerciseInput currentNode = (ExerciseInput) nodes.get(index);
+                    return new ExerciseWithData(exercises.get(index), currentNode.getSets(), currentNode.getReps());
+                })
+                .collect(Collectors.toList());
     }
 
     public void initialize() {

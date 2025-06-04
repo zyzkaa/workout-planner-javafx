@@ -19,10 +19,11 @@ public class MyApplication extends Application {
     public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/login-view.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/main-layout.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("/view/plan-creator-view.fxml"));
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double width = screenBounds.getWidth() * 0.8;
-        double height = screenBounds.getHeight() * 0.8;
+        double width = screenBounds.getWidth();
+        double height = screenBounds.getHeight();
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/gym-dumbbell-svgrepo-com.png")));
         stage.getIcons().add(icon);

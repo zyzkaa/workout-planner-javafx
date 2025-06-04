@@ -85,6 +85,28 @@
     -fx-background-color: linear-gradient(to bottom, #2980b9, #21618c);
 }
 
+/* Delete Workout Button Styles */
+.delete-workout-button {
+    -fx-background-color: linear-gradient(to bottom, #e74c3c, #c0392b);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-pref-height: 35;
+}
+
+.delete-workout-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ec7063, #e74c3c);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2);
+}
+
+.delete-workout-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #c0392b, #a93226);
+}
+
 /* Save Button Styles */
 .save-button {
     -fx-background-color: linear-gradient(to bottom, #27ae60, #229954);

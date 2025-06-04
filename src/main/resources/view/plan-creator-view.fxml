@@ -10,10 +10,9 @@
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.projekt.controller.PlanCreatorController"
-      prefHeight="400.0" minWidth="1000.0"
       style="-fx-background-color: #f5f6fa;">
 
-    <VBox spacing="15" style="-fx-padding: 20;">
+    <VBox spacing="15" style="-fx-padding: 20;" minWidth="600" maxWidth="600">
 
         <HBox spacing="15" alignment="CENTER_LEFT"
               style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
@@ -45,13 +44,15 @@
     <VBox fx:id="workoutBox"
           VBox.vgrow="ALWAYS"
           HBox.hgrow="ALWAYS"
-          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2); -fx-min-width: 400;">
+          style="-fx-background-color: white; -fx-padding: 20 0 20 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2); -fx-min-width: 400;">
     </VBox>
 
     <VBox fx:id="exerciseBox"
-          VBox.vgrow="ALWAYS"
-          HBox.hgrow="ALWAYS"
-          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2); -fx-min-width: 300;">
+          minWidth="600"
+          maxWidth="600"
+          HBox.hgrow="NEVER"
+          alignment="TOP_RIGHT"
+          style="-fx-background-color: white; -fx-padding: 20 30 20 30; -fx-background-radius: 10;">
     </VBox>
 
     <stylesheets>

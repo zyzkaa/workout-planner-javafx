@@ -1,31 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.projekt.controller.ExercisesListController"
-      prefHeight="400.0" prefWidth="600.0">
+      spacing="20.0"
+      style="-fx-background-color: #f5f5f5; -fx-padding: 20;">
 
-    <Text text="Wybierz część ciała:"/>
-    <ComboBox fx:id="bodyPartsComboBox"/>
+    <VBox VBox.vgrow="ALWAYS" spacing="8.0">
+        <Text text="Exercises list"
+              style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+        <Text text="Select body part or search for an exercise"
+              style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+    </VBox>
 
-    <HBox spacing="10" fx:id="inputBox">
+    <VBox maxWidth="300" minWidth="300" spacing="8.0">
+        <Label text="Body parts:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <ComboBox fx:id="bodyPartsComboBox"
+                  maxHeight="40"
+                  minHeight="40"
+                  prefWidth="Infinity"
+                  style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
 
-<!--        <Button fx:id="searchButton" text="Szukaj" />-->
-<!--        <Button fx:id="clearButton" text="Wyczyść" />-->
+        <Label text="Search:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <HBox spacing="10.0" fx:id="inputBox" prefWidth="Infinity"
+              maxHeight="40"
+              minHeight="40">
+        </HBox>
+    </VBox>
+
+
+    <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+        <Label text="Results:"
+               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <ListView fx:id="exercisesListView"
+                  style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-background-radius: 8px;">
+        </ListView>
+    </VBox>
+
+    <HBox VBox.vgrow="ALWAYS" spacing="15.0" alignment="CENTER">
+        <Button fx:id="prevButton"
+                text="← Previous"
+                prefWidth="120.0"
+                prefHeight="35.0"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-border-radius: 6px;">
+        </Button>
+        <Button fx:id="nextButton"
+                text="Next →"
+                prefWidth="120.0"
+                prefHeight="35.0"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-border-radius: 6px;">
+        </Button>
     </HBox>
 
-    <ListView fx:id="exercisesListView" layoutX="20" layoutY="100" prefWidth="300" prefHeight="400"/>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="prevButton" text="← Poprzednie"/>
-        <Button fx:id="nextButton" text="Następne →"/>
-    </HBox>
+    <stylesheets>
+        <URL value="@../css/exercise-list.css"/>
+    </stylesheets>
 
 </VBox>

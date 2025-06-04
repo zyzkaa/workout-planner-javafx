@@ -12,10 +12,6 @@ import java.awt.*;
 import java.net.URI;
 
 public class LoginController {
-    public void doSomething() {
-
-    }
-
     public void handleGoogleLogin() {
         try {
             new GoogleCallbackServer().start();

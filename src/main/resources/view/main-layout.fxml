@@ -3,25 +3,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.projekt.controller.MainLayoutController"
             prefHeight="600.0" prefWidth="800.0">
 
     <top>
-        <ToolBar>
+        <ToolBar style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);">
             <Region fx:id="spacer1" HBox.hgrow="ALWAYS"/>
-            <HBox spacing="10" style="-fx-padding: 10;">
-                <Button text="Dashboard" onAction="#showDashboard"/>
-                <Button text="Clients" onAction="#showClients"/>
-                <Button text="Workouts" onAction="#showWorkouts"/>
+            <HBox spacing="10">
+                <Button text="Dashboard" onAction="#showDashboard" styleClass="toolbar-button"/>
+                <Button text="Clients" onAction="#showClients" styleClass="toolbar-button"/>
+                <Button text="Workouts" onAction="#showWorkouts" styleClass="toolbar-button"/>
             </HBox>
             <Region fx:id="spacer2" HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#handleLogout"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="toolbar-button"/>
         </ToolBar>
     </top>
 
     <center>
         <AnchorPane fx:id="contentPane" />
     </center>
+
+    <stylesheets>
+        <URL value="@../css/toolbar.css"/>
+    </stylesheets>
+
 </BorderPane>

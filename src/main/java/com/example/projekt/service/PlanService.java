@@ -12,9 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mapper.ExerciseMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @NoArgsConstructor
 public class PlanService {
@@ -27,10 +25,20 @@ public class PlanService {
         return PlanRepository.getINSTANCE().findAll();
     }
 
+    public Plan getById(int id) {
+        return PlanRepository.getINSTANCE().findById(id);
+    }
+
+    public void deleteById(int id) {
+        PlanRepository.getINSTANCE().deleteById(id);
+    }
+
     public void addPlan(Map<WeekDay, WorkoutCreatorController> workoutMap, String title) {
-        List<Workout> workoutList = new ArrayList<>();
+        Set<Workout> workoutList = new HashSet<>();
+        Plan plan = new Plan();
         workoutMap.forEach((weekDay, workoutCreator) -> {
-            List<ExerciseDetails> exerciseList = new ArrayList<>();
+            Set<ExerciseDetails> exerciseList = new HashSet<>();
+            Workout workout = new Workout();
             workoutCreator.getExercisesWithData().forEach(exercise -> {
                 Exercise exerciseFetched = exerciseRepositoryInstance.findById(exercise.getExercise().getExerciseId());
                 if(exerciseFetched == null) {
@@ -41,16 +49,19 @@ public class PlanService {
                 exerciseDetails.setExercise(exerciseFetched);
                 exerciseDetails.setRepetitions(exercise.getReps());
                 exerciseDetails.setSets(exercise.getSets());
+                exerciseDetails.setWorkout(workout);
                 exerciseList.add(exerciseDetails);
             });
-            Workout workout = new Workout();
+            workout.setPlan(plan);
             workout.setExercises(exerciseList);
             workout.setDay(weekDay);
             workoutList.add(workout);
         });
-        Plan plan = new Plan();
+
         plan.setTitle(title);
         plan.setWorkouts(workoutList);
+        plan.setAdded(new Date());
         PlanRepository.getINSTANCE().add(plan);
+        System.out.println("DODANO PLAN NOWY YIPEEEEE");
     }
 }

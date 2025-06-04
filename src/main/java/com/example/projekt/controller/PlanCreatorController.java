@@ -1,7 +1,10 @@
 package com.example.projekt.controller;
+import com.example.projekt.AppEventBus;
 import com.example.projekt.WeekDay;
 import com.example.projekt.event.ChangeViewEvent;
+import com.example.projekt.event.bus.PlanSavedEvent;
 import com.example.projekt.service.PlanService;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
@@ -34,21 +37,23 @@ public class PlanCreatorController {
 
     IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
 
-
-    @FXML
-    public void initialize() {
-        planTitleField.getStyleClass().add("styled-text-field");
-
+    private void initializeDays(){
         Arrays.stream(WeekDay.values()).forEach(day -> {
             daysBox.getChildren().add(createDayPane(day));
         });
+    }
 
+    private void addExerciseList(){
         try {
             FXMLLoader exerciseLoader = new FXMLLoader(getClass().getResource("/view/exercises-list-view.fxml"));
             Node exerciseBoxLoaded = exerciseLoader.load();
             exerciseBoxLoaded.setVisible(false);
             exercisesListController = exerciseLoader.getController();
             exerciseBox.getChildren().add(exerciseBoxLoaded);
+
+            exercisesListController.setOnExerciseSelected(exercise -> {
+                workoutControllerMap.get(currentDay).addExercise(exercise);
+            });
 
             ListChangeListener<Node> listener = new ListChangeListener<>() {
                 @Override
@@ -68,10 +73,15 @@ public class PlanCreatorController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        exercisesListController.setOnExerciseSelected(exercise -> {
-            workoutControllerMap.get(currentDay).addExercise(exercise);
-        });
+
+    @FXML
+    public void initialize() {
+        planTitleField.getStyleClass().add("styled-text-field");
+
+        initializeDays();
+        addExerciseList();
     }
 
     private VBox createDayPane(WeekDay day) {
@@ -131,6 +141,12 @@ public class PlanCreatorController {
                     statusLabel.getStyleClass().add("status-label");
                 }
             }
+
+            if (workoutControllerMap.containsKey(day)) {
+                addButton.setText("Edit Workout");
+            } else {
+                addButton.setText("+ Add Workout");
+            }
         });
 
         return container;
@@ -153,6 +169,11 @@ public class PlanCreatorController {
             return;
         }
 
+        if(workoutControllerMap.isEmpty()) {
+            showErrorAlert("add at lest one workout");
+            return;
+        }
+
         String title = planTitleField.getText();
 
         if(title.isEmpty()){
@@ -160,10 +181,13 @@ public class PlanCreatorController {
             return;
         }
 
+        daysBox.fireEvent(new ChangeViewEvent("/view/plan-list-view.fxml"));
+
         Thread.startVirtualThread(() -> {
             try{
-                // idz do ogladania po przekazaniu controller map
                 PlanService.getInstance().addPlan(workoutControllerMap, title);
+//                Thread.sleep(5000);
+                AppEventBus.getAsyncBus().post(new PlanSavedEvent());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -207,5 +231,4 @@ public class PlanCreatorController {
         displayWorkout(currentDayController);
         selectedDayNumber.set(dayNumber);
     }
-
 }
