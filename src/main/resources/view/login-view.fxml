@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
-
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.projekt.controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0"
+            style="-fx-background-color: #f5f5f5;">
 
-    <VBox spacing="15.0" alignment="CENTER"
+    <VBox spacing="20.0" alignment="CENTER"
           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <padding>
-            <Insets top="30" right="30" bottom="30" left="30"/>
-        </padding>
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          style="-fx-background-color: white; -fx-padding: 40; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);"
+          maxWidth="400.0" maxHeight="360.0"
+          layoutX="100" layoutY="20">
 
-        <Label text="Log in" style="-fx-font-size: 2em; -fx-font-weight: bold;" />
+        <Label text="Log in"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
-        <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
-        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
+        <TextField fx:id="emailField"
+                   promptText="Email"
+                   maxWidth="300"
+                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />
 
-<!--        <Button fx:id="loginButton" text="Log in" maxWidth="300" onAction="#test"/>-->
-<!--        <Label text="lub"/>-->
-        <Button fx:id="googleLoginButton" text="Log in with Google" maxWidth="300" onAction="#handleGoogleLogin"/>
+        <PasswordField fx:id="passwordField"
+                       promptText="Password"
+                       maxWidth="300"
+                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />
 
-        <Label fx:id="errorLabel" textFill="red" wrapText="true" />
+        <Button fx:id="googleLoginButton"
+                text="Log in with Google"
+                maxWidth="300"
+                onAction="#handleGoogleLogin"
+                style="-fx-background-color: linear-gradient(to bottom, #db4437, #c23321); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-padding: 10 20;" />
+
+        <Label fx:id="errorLabel"
+               textFill="red"
+               wrapText="true"
+               style="-fx-text-alignment: center;"/>
     </VBox>
 
 </AnchorPane>

@@ -1,4 +1,4 @@
-package com.example.projekt.api;
+package com.example.projekt.api.dto;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

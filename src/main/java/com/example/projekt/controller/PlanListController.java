@@ -5,7 +5,6 @@ import com.example.projekt.component.OneDayDisplay;
 import com.example.projekt.event.ChangeViewEvent;
 import com.example.projekt.event.bus.PlanSavedEvent;
 import com.example.projekt.model.entity.Plan;
-import com.example.projekt.model.entity.Workout;
 import com.example.projekt.service.PlanService;
 import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
@@ -13,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -25,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,11 +31,12 @@ import java.util.Optional;
 public class PlanListController {
     @FXML
     VBox planList;
+    @FXML
+    VBox planDisplay;
 
     List<Plan> plans = new ArrayList<>();
 
-    @FXML
-    VBox planDisplay;
+    private final PlanService planService = PlanService.getInstance();
 
     @FXML
     public void initialize() {
@@ -121,7 +119,7 @@ public class PlanListController {
 
         Thread.startVirtualThread(() -> {
             try {
-                PlanService.getInstance().deleteById(planId);
+                planService.deleteById(planId);
                 getAllPlans();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,7 +134,7 @@ public class PlanListController {
 
         Thread.startVirtualThread(() -> {
             try {
-                Plan plan = PlanService.getInstance().getById(planId);
+                Plan plan = planService.getById(planId);
                 Platform.runLater(() -> displayPlan(plan));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -170,7 +168,7 @@ public class PlanListController {
         Platform.runLater(() -> planList.getChildren().clear());
         Thread.startVirtualThread(() -> {
             try{
-                plans = PlanService.getInstance().getAll();
+                plans = planService.getAll();
                 Platform.runLater(() -> showAllPlans(plans));
             } catch (Exception e) {
                 e.printStackTrace();

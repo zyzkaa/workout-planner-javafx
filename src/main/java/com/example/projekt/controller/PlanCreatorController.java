@@ -26,16 +26,17 @@ public class PlanCreatorController {
     private TextField planTitleField;
     @FXML
     private VBox workoutBox;
-    private Map<WeekDay, WorkoutCreatorController> workoutControllerMap = new EnumMap<WeekDay, WorkoutCreatorController>(WeekDay.class);
-    private WeekDay currentDay;
-    @FXML
-    private VBox daysBox;
     @FXML
     private VBox exerciseBox;
+    @FXML
+    private VBox daysBox;
+
+    private Map<WeekDay, WorkoutCreatorController> workoutControllerMap = new EnumMap<WeekDay, WorkoutCreatorController>(WeekDay.class);
+    private WeekDay currentDay;
     private ExercisesListController exercisesListController;
+    private final IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
 
-
-    IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
+    private final PlanService planService = PlanService.getInstance();
 
     private void initializeDays(){
         Arrays.stream(WeekDay.values()).forEach(day -> {
@@ -164,6 +165,7 @@ public class PlanCreatorController {
     private void handleSavePlan() {
         boolean isValid = workoutControllerMap.values().stream()
                         .allMatch(WorkoutCreatorController::validate);
+
         if(!isValid) {
             showErrorAlert("sets and reps values cannot be empty");
             return;
@@ -185,14 +187,12 @@ public class PlanCreatorController {
 
         Thread.startVirtualThread(() -> {
             try{
-                PlanService.getInstance().addPlan(workoutControllerMap, title);
-//                Thread.sleep(5000);
+                planService.savePlan(workoutControllerMap, title);
                 AppEventBus.getAsyncBus().post(new PlanSavedEvent());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-//        daysBox.fireEvent(new ChangeViewEvent("/view/plan-list-view.fxml"));
     }
 
 

@@ -1,15 +1,18 @@
-package com.example.projekt.util;
+package com.example.projekt.api;
 
 import com.example.projekt.AppEventBus;
-import com.example.projekt.api.GoogleTokenResponse;
+import com.example.projekt.api.dto.FirebaseSignInResponse;
+import com.example.projekt.api.dto.GoogleSignInRequest;
+import com.example.projekt.api.dto.GoogleTokenResponse;
 import com.example.projekt.event.bus.UserLoginEvent;
 import com.example.projekt.model.entity.Token;
 import com.example.projekt.repository.TokenRepository;
+import com.example.projekt.util.AppConfig;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import retrofit2.Response;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.*;
@@ -32,7 +35,10 @@ public class GoogleCallbackServer {
                 + "&scope=openid%20email"
                 + "&prompt=consent";
 
-        Desktop.getDesktop().browse(new URI(url));
+//        for windows
+//        Desktop.getDesktop().browse(new URI(url));
+
+        Runtime.getRuntime().exec(new String[] { "xdg-open", url });
     }
 
     private void handleCallback(HttpExchange exchange) throws IOException {
@@ -46,21 +52,23 @@ public class GoogleCallbackServer {
 
         tokenAlreadyExchanged = true;
 
-//        System.out.println("Authorization code: " + code);
+        GoogleTokenResponse googleTokenResponse = exchangeCodeForToken(code);
 
-        GoogleTokenResponse tokenResponse = exchangeCodeForToken(code);
-//        System.out.println("Token response:\n" + tokenResponse);
-
-        if(tokenResponse == null){
+        if(googleTokenResponse == null){
             exchange.sendResponseHeaders(401, -1);
             return;
         }
 
-        TokenRepository.getInstance().saveToken(new Token(
-                tokenResponse.getAccessToken(),
-                tokenResponse.getRefreshToken(),
-                tokenResponse.getExpiresIn()
-        ));
+        TokenRepository.getInstance().saveToken(new Token(googleTokenResponse));
+
+        FirebaseSignInResponse firebaseTokenResponse = loginToFirebase(googleTokenResponse);
+
+        if(firebaseTokenResponse == null){
+            exchange.sendResponseHeaders(401, -1);
+            return;
+        }
+
+        TokenRepository.getInstance().saveToken(new Token(firebaseTokenResponse));
 
         AppEventBus.getAsyncBus().post(new UserLoginEvent());
         String response = "Log in successfull, you can close this window";
@@ -68,8 +76,24 @@ public class GoogleCallbackServer {
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(response.getBytes());
         }
-        server.stop(10000);
 
+        server.stop(10000);
+    }
+
+    private FirebaseSignInResponse loginToFirebase(GoogleTokenResponse googleToken){
+        try {
+            Response<FirebaseSignInResponse> response = GoogleService.getInstance().getGoogleApi().signInToFirebase(
+                    AppConfig.getProperty("firebase.apiKey"),
+                    new GoogleSignInRequest(googleToken.getIdToken())
+            ).execute();
+
+            if (response.isSuccessful()) {
+                return response.body();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String extractParam(String query, String key) {
@@ -103,27 +127,6 @@ public class GoogleCallbackServer {
             String json = new String(conn.getInputStream().readAllBytes());
             Gson gson = new Gson();
             return gson.fromJson(json, GoogleTokenResponse.class);
-
-//            int responseCode = conn.getResponseCode();
-//            InputStream is = (responseCode >= 200 && responseCode < 300)
-//                    ? conn.getInputStream()
-//                    : conn.getErrorStream();
-//
-//            String json = new String(is.readAllBytes());
-//            System.out.println("Raw response:\n" + json);
-//
-//            if (responseCode >= 200 && responseCode < 300) {
-//                Gson gson = new Gson();
-//                GoogleTokenResponse token = gson.fromJson(json, GoogleTokenResponse.class);
-//
-//                System.out.println("Access token: " + token.accessToken());
-//                System.out.println("ID token: " + token.idToken());
-//
-//                return token.accessToken();
-//            } else {
-//                System.err.println("Error: HTTP " + responseCode);
-//                return null;
-//            }
 
         } catch (Exception e) {
             e.printStackTrace();

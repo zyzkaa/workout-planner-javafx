@@ -1,6 +1,9 @@
 package com.example.projekt.controller;
 
 import com.example.projekt.event.ChangeViewEvent;
+import com.example.projekt.repository.TokenRepository;
+import com.example.projekt.service.MessagesService;
+import com.example.projekt.util.AppConfig;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,6 +21,7 @@ public class MainLayoutController {
     @FXML
     public void initialize() {
         showDashboard();
+        loginToFirebase();
 
         contentPane.addEventHandler(ChangeViewEvent.CHANGE_VIEW, event -> {
             System.out.println(event.getFxmlPath());
@@ -28,6 +32,12 @@ public class MainLayoutController {
 
             setContent(event.getFxmlPath());
             event.consume();
+        });
+    }
+
+    private void loginToFirebase() {
+        Thread.startVirtualThread(() -> {
+            MessagesService.getInstance().loginUser();
         });
     }
 

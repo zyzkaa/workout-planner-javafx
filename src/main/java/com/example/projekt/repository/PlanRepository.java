@@ -28,8 +28,4 @@ public class PlanRepository {
     public void deleteById(int id) {
         JpaUtil.doInTransactionVoid(session -> session.createQuery("delete from Plan p where p.id = :id").setParameter("id", id).executeUpdate());
     }
-
-//    public Plan findById(int id){
-//        return JpaUtil.doInTransaction(session -> session.find(Plan.class, id));
-//    }
 }

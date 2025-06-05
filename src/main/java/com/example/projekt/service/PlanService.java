@@ -10,58 +10,63 @@ import com.example.projekt.repository.ExerciseRepository;
 import com.example.projekt.repository.PlanRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mapper.ExerciseMapper;
+import mapper.Mapper;
 
 import java.util.*;
 
 @NoArgsConstructor
 public class PlanService {
     @Getter
-    private static PlanService instance = new PlanService();
+    private final static PlanService instance = new PlanService();
 
-    ExerciseRepository exerciseRepositoryInstance = ExerciseRepository.getINSTANCE();
+    private final ExerciseRepository exerciseRepository = ExerciseRepository.getINSTANCE();
+    private final PlanRepository planRepository = PlanRepository.getINSTANCE();
 
     public List<Plan> getAll() {
-        return PlanRepository.getINSTANCE().findAll();
+        return planRepository.findAll();
     }
 
     public Plan getById(int id) {
-        return PlanRepository.getINSTANCE().findById(id);
+        return planRepository.findById(id);
     }
 
     public void deleteById(int id) {
-        PlanRepository.getINSTANCE().deleteById(id);
+        planRepository.deleteById(id);
     }
 
-    public void addPlan(Map<WeekDay, WorkoutCreatorController> workoutMap, String title) {
-        Set<Workout> workoutList = new HashSet<>();
+    public void savePlan(Map<WeekDay, WorkoutCreatorController> workoutMap, String title){
         Plan plan = new Plan();
+        plan.setTitle(title);
+        plan.setAdded(new Date());
+
+        Set<Workout> workoutList = new HashSet<>();
         workoutMap.forEach((weekDay, workoutCreator) -> {
-            Set<ExerciseDetails> exerciseList = new HashSet<>();
             Workout workout = new Workout();
+            workout.setDay(weekDay);
+            workout.setPlan(plan);
+
+            Set<ExerciseDetails> exerciseList = new HashSet<>();
             workoutCreator.getExercisesWithData().forEach(exercise -> {
-                Exercise exerciseFetched = exerciseRepositoryInstance.findById(exercise.getExercise().getExerciseId());
-                if(exerciseFetched == null) {
-                    exerciseFetched = ExerciseMapper.fromDto(exercise.getExercise());
-                    exerciseRepositoryInstance.add(exerciseFetched);
-                }
                 ExerciseDetails exerciseDetails = new ExerciseDetails();
-                exerciseDetails.setExercise(exerciseFetched);
                 exerciseDetails.setRepetitions(exercise.getReps());
                 exerciseDetails.setSets(exercise.getSets());
                 exerciseDetails.setWorkout(workout);
+
+                Exercise exerciseFetched = exerciseRepository.findById(exercise.getExercise().getExerciseId());
+                if(exerciseFetched == null) {
+                    exerciseFetched = Mapper.fromDto(exercise.getExercise());
+                    exerciseRepository.add(exerciseFetched);
+                }
+                exerciseDetails.setExercise(exerciseFetched);
                 exerciseList.add(exerciseDetails);
             });
-            workout.setPlan(plan);
+
             workout.setExercises(exerciseList);
-            workout.setDay(weekDay);
             workoutList.add(workout);
         });
 
-        plan.setTitle(title);
         plan.setWorkouts(workoutList);
-        plan.setAdded(new Date());
-        PlanRepository.getINSTANCE().add(plan);
-        System.out.println("DODANO PLAN NOWY YIPEEEEE");
+        planRepository.add(plan);
     }
+
 }

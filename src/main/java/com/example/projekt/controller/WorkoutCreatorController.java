@@ -21,14 +21,13 @@ import java.util.stream.IntStream;
 public class WorkoutCreatorController {
     @FXML
     private VBox exercisesBox;
-
     @FXML
     private VBox root;
-
     @FXML
     private Text text;
-    private String initialText;
 
+
+    private String initialText;
     private final ObservableList<ExerciseDto> exercises = FXCollections.observableArrayList();
 
     public void setText(String text) {

@@ -18,10 +18,20 @@ public class TokenRepository {
                 token.setAccessToken(token.getAccessToken());
                 token.setRefreshToken(token.getRefreshToken());
                 token.setExpires(token.getExpires());
+                token.setEmail(token.getEmail());
+                token.setLocalId(token.getLocalId());
                 session.merge(token);
             } else {
                 session.persist(token);
             }
         });
+    }
+
+    public Token getGoogleToken(){
+        return JpaUtil.doInTransaction(session -> session.find(Token.class, "google"));
+    }
+
+    public Token getFirebaseToken(){
+        return JpaUtil.doInTransaction(session -> session.find(Token.class, "firebase"));
     }
 }
