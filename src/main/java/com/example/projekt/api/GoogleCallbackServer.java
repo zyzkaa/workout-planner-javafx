@@ -1,12 +1,11 @@
 package com.example.projekt.api;
 
 import com.example.projekt.AppEventBus;
+import com.example.projekt.AuthSession;
 import com.example.projekt.api.dto.FirebaseSignInResponse;
 import com.example.projekt.api.dto.GoogleSignInRequest;
 import com.example.projekt.api.dto.GoogleTokenResponse;
 import com.example.projekt.event.bus.UserLoginEvent;
-import com.example.projekt.model.entity.Token;
-import com.example.projekt.repository.TokenRepository;
 import com.example.projekt.util.AppConfig;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -59,7 +58,7 @@ public class GoogleCallbackServer {
             return;
         }
 
-        TokenRepository.getInstance().saveToken(new Token(googleTokenResponse));
+        AuthSession.google = googleTokenResponse.getAccessToken();
 
         FirebaseSignInResponse firebaseTokenResponse = loginToFirebase(googleTokenResponse);
 
@@ -68,9 +67,9 @@ public class GoogleCallbackServer {
             return;
         }
 
-        TokenRepository.getInstance().saveToken(new Token(firebaseTokenResponse));
-
+        AuthSession.setFirebaseToken(firebaseTokenResponse);
         AppEventBus.getAsyncBus().post(new UserLoginEvent());
+
         String response = "Log in successfull, you can close this window";
         exchange.sendResponseHeaders(200, response.length());
         try (OutputStream os = exchange.getResponseBody()) {
@@ -88,6 +87,7 @@ public class GoogleCallbackServer {
             ).execute();
 
             if (response.isSuccessful()) {
+                System.out.println(response.body());
                 return response.body();
             }
         } catch (IOException e){

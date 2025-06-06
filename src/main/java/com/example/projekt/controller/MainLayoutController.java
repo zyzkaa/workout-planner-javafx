@@ -1,14 +1,12 @@
 package com.example.projekt.controller;
 
+import com.example.projekt.AuthSession;
 import com.example.projekt.event.ChangeViewEvent;
-import com.example.projekt.repository.TokenRepository;
 import com.example.projekt.service.MessagesService;
-import com.example.projekt.util.AppConfig;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -65,7 +63,7 @@ public class MainLayoutController {
 
     @FXML
     private void showClients() {
-        setContent("/view/ClientsView.fxml");
+        setContent("/view/clients-view.fxml");
     }
 
     @FXML
@@ -75,6 +73,7 @@ public class MainLayoutController {
 
     @FXML
     private void handleLogout() {
-        System.out.println("Logging out...");
+        AuthSession.clear();
+        setContent("/view/login-view.fxml");
     }
 }

@@ -1,11 +1,13 @@
 package com.example.projekt.controller;
 
-import com.example.projekt.api.ExerciseService;
 import com.example.projekt.component.DebounceInput;
 import com.example.projekt.event.ExerciseSearchEvent;
-import com.example.projekt.model.dto.*;
+import com.example.projekt.model.dto.BodyPartsDto;
+import com.example.projekt.model.dto.ExerciseDto;
+import com.example.projekt.model.dto.ExercisePage;
 import com.example.projekt.service.ExercisesService;
 import com.google.common.base.Supplier;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -13,17 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import lombok.NoArgsConstructor;
-import retrofit2.Response;
-import javafx.application.Platform;
 
-
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projekt.controller.PlanListController"
+      prefHeight="600.0" prefWidth="800.0"
+      style="-fx-background-color: #f5f6fa;">
+
+    <VBox maxWidth="500" spacing="20" HBox.hgrow="ALWAYS" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10">
+            <Label text="Your Clients"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+            />
+        </HBox>
+
+        <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="clientList" VBox.vgrow="ALWAYS" spacing="10"
+                  style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
+            </VBox>
+        </ScrollPane>
+
+    </VBox>
+
+    <VBox fx:id="chatBox" HBox.hgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="planDisplay" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10"
+                  style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+    <stylesheets>
+<!--        <URL value="@../css/plan-creator.css"/>-->
+    </stylesheets>
+</HBox>

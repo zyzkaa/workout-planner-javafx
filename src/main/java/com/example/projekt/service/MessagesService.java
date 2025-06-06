@@ -1,33 +1,40 @@
 package com.example.projekt.service;
 
+import com.example.projekt.AuthSession;
+import com.example.projekt.api.FirebaseApi;
 import com.example.projekt.api.FirebaseService;
 import com.example.projekt.api.dto.QueryRequest;
 import com.example.projekt.api.dto.QueryResponse;
-import com.example.projekt.model.entity.Token;
-import com.example.projekt.repository.TokenRepository;
 import com.example.projekt.util.AppConfig;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import retrofit2.Call;
 import retrofit2.Response;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 public class MessagesService {
     @Getter
     private static MessagesService instance = new MessagesService();
 
+    private final FirebaseApi firebaseApi = FirebaseService.getInstance().getFirebaseApi();
+
+    private Map<String, Object> getRequestBody(){
+        Map<String, Object> body = new HashMap<>();
+        return body;
+    }
+
     public void loginUser(){
-        Token firebaseToken = TokenRepository.getInstance().getFirebaseToken();
         String apiKey = AppConfig.getProperty("firebase.apiKey");
-        String idToken = firebaseToken.getAccessToken();
-        String uid = firebaseToken.getLocalId();
+        String idToken = AuthSession.getFirebaseIdToken();
+        String uid = AuthSession.getFirebaseLocalId();
 
         QueryRequest request = new QueryRequest(uid);
 
         try {
-            Response<List<QueryResponse>> response = FirebaseService.getInstance().getFirebaseApi().getCoachByLocalId(
+            Response<List<QueryResponse>> response = firebaseApi.getCoachByLocalId(
                     request,
                     apiKey,
                     "Bearer " + idToken
@@ -40,19 +47,30 @@ public class MessagesService {
             if(responses.size() > 1) throw new RuntimeException();
 
             QueryResponse user = responses.getFirst();
+
             if(user.getDocument() == null) {
-                System.out.println("nie ma w bazie");
+                Map<String, Object> fields = new HashMap<>();
+                fields.put("email", Map.of("stringValue", AuthSession.getFirebaseEmail()));
+                Map<String, Object> body = new HashMap<>();
+                body.put("fields", fields);
+
+                Response<QueryResponse> addResponse = firebaseApi.addCoach(
+                        uid,
+                        apiKey,
+                        "application/json",
+                        "Bearer " + idToken,
+                        body
+                ).execute();
+
+                if(!addResponse.isSuccessful()) throw new RuntimeException();
+                if(addResponse.body() == null) throw new RuntimeException();
+            } else {
+                System.out.println("jest w bazie");
             }
-
-            System.out.println("jest w bazie");
-
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
 
     }
 

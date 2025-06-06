@@ -32,7 +32,6 @@ public class HibernateUtil {
 
             config.addAnnotatedClass(Client.class);
             config.addAnnotatedClass(Plan.class);
-            config.addAnnotatedClass(Token.class);
             config.addAnnotatedClass(Exercise.class);
             config.addAnnotatedClass(ExerciseDetails.class);
             config.addAnnotatedClass(Workout.class);

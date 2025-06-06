@@ -10,7 +10,7 @@
             prefHeight="600.0" prefWidth="800.0">
 
     <top>
-        <ToolBar style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);">
+        <ToolBar style="-fx-background-color: #f5f6fa; -fx-padding: 10; -fx-end-margin: 10; -fx-start-margin: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);">
             <Region fx:id="spacer1" HBox.hgrow="ALWAYS"/>
             <HBox spacing="10">
                 <Button text="Dashboard" onAction="#showDashboard" styleClass="toolbar-button"/>

@@ -1,9 +1,5 @@
 package com.example.projekt.controller;
 
-import com.example.projekt.AppEventBus;
-import com.example.projekt.event.bus.UserLoginEvent;
-import com.example.projekt.model.entity.Client;
-import com.example.projekt.repository.ClientRepository;
 import com.example.projekt.api.GoogleCallbackServer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

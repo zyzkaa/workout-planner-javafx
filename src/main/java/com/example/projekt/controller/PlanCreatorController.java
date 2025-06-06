@@ -1,25 +1,27 @@
 package com.example.projekt.controller;
+
 import com.example.projekt.AppEventBus;
 import com.example.projekt.WeekDay;
 import com.example.projekt.event.ChangeViewEvent;
 import com.example.projekt.event.bus.PlanSavedEvent;
 import com.example.projekt.service.PlanService;
-import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class PlanCreatorController {
     @FXML

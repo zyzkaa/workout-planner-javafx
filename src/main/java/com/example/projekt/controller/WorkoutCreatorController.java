@@ -2,8 +2,6 @@ package com.example.projekt.controller;
 
 import com.example.projekt.component.ExerciseInput;
 import com.example.projekt.model.dto.ExerciseDto;
-import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
