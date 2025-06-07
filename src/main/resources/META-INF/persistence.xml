@@ -1,7 +1,6 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              version="3.0">
     <persistence-unit name="database">
-        <class>com.example.projekt.model.entity.Client</class>
         <class>com.example.projekt.model.entity.Plan</class>
         <class>com.example.projekt.model.entity.Workout</class>
         <class>com.example.projekt.model.entity.Exercise</class>

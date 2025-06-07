@@ -2,7 +2,7 @@ package com.example.projekt.controller;
 
 import com.example.projekt.AuthSession;
 import com.example.projekt.event.ChangeViewEvent;
-import com.example.projekt.service.MessagesService;
+import com.example.projekt.service.ClientsService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -34,9 +34,7 @@ public class MainLayoutController {
     }
 
     private void loginToFirebase() {
-        Thread.startVirtualThread(() -> {
-            MessagesService.getInstance().loginUser();
-        });
+        Thread.startVirtualThread(ClientsService::loginUser);
     }
 
     private void setContent(String fxmlPath) {

@@ -2,18 +2,16 @@ package com.example.projekt.api;
 
 import lombok.Getter;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import okhttp3.logging.HttpLoggingInterceptor;
 
-
-public class ExerciseService {
-    private static ExerciseService instance;
-
+public class RefreshTokenService {
     @Getter
-    private final ExerciseApi exerciseApi;
+    private final RefreshTokenApi refreshTokenApi;
+    private static RefreshTokenService instance;
 
-    private ExerciseService() {
+    public RefreshTokenService() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -22,17 +20,16 @@ public class ExerciseService {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://exercisedb-api.vercel.app/api/v1/")
+                .baseUrl("https://securetoken.googleapis.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 
-        exerciseApi = retrofit.create(ExerciseApi.class);
+        refreshTokenApi = retrofit.create(RefreshTokenApi.class);
     }
 
-    public static synchronized ExerciseService getInstance() {
-        if (instance == null) instance = new ExerciseService();
+    public static RefreshTokenService getInstance() {
+        if (instance == null) instance = new RefreshTokenService();
         return instance;
     }
-
 }

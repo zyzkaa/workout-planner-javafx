@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.web.WebView?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefHeight="400.0" prefWidth="600.0"
+      fx:id="root">
+
+    <WebView fx:id="webView">
+
+    </WebView>
+
+<!--    <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">-->
+<!--        <VBox fx:id="chatDisplay" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10"-->
+<!--              style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">-->
+<!--        </VBox>-->
+<!--    </ScrollPane>-->
+
+    <VBox fx:id="messagesBox" minHeight="500" minWidth="500" style="-fx-background-color: #a63e3e">
+
+    </VBox>
+    <VBox>
+        <TextField fx:id="chatInput" alignment="BOTTOM_LEFT">
+
+        </TextField>
+        <Button fx:id="sendButton">
+
+        </Button>
+    </VBox>
+
+
+</VBox>

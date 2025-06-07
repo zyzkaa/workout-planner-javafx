@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+    let db = null
+    let initialized = false
+    function setMessages(message) {
+        if (window.java && window.java.setMessages) {
+            window.java.setMessages(message);
+        }
+    }
+
+    function initializeFirebase(){
+        firebase.initializeApp(window.firebaseConfig);
+        db = firebase.firestore();
+        initialized = true
+    }
+
+    let userData
+    window.getMessages = async function () {
+        try {
+            userData = window.userData;
+            if (!userData) {
+                setMessages("No userData found");
+                return;
+            }
+
+            if(!initialized) return
+
+            // sendMessageToJava("CoachId: " + userData.coachId);
+            // sendMessageToJava("ClientId: " + userData.clientId);
+
+            const messagesRef = db
+                .collection("coaches")
+                .doc(userData.coachId)
+                .collection("users")
+                .doc(userData.clientId)
+                .collection("chat");
+
+            // sendMessageToJava("Starting Firestore query...");
+            const snapshot = await messagesRef.get();
+            // sendMessageToJava("Firestore query completed");
+
+            const messages = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            // sendMessageToJava("Found " + messages.length + " messages");
+            setMessages(JSON.stringify({
+                type: "messages",
+                data: messages
+            }));
+
+            listenForMessages()
+
+        } catch (error) {
+            setMessages("Error in getMessages: " + error.message);
+        }
+    }
+
+    listenForMessages = function () {
+        const messagesRef = firebase.firestore()
+            .collection("coaches")
+            .doc(userData.coachId)
+            .collection("users")
+            .doc(userData.clientId)
+            .collection("chat")
+
+        messagesRef.onSnapshot(snapshot => {
+            const messages = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            setMessages(JSON.stringify({
+                type: "messages",
+                data: messages
+            }));
+        });
+    };
+
+    window.sendMessage = async function (content){
+        if (!content || !content.trim()) return;
+        if (!userData || !userData.coachId || !userData.clientId || !db) return;
+
+        const message = {
+            content: content,
+            sender: userData.clientId,
+            date: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db
+            .collection("coaches")
+            .doc(userData.coachId)
+            .collection("users")
+            .doc(userData.clientId)
+            .collection("chat")
+            .add(message);
+    }
+
+
+    window.onload = function () {
+        const waitForConfig = setInterval(async () => {
+            if (window.firebaseConfig) {
+                clearInterval(waitForConfig);
+                initializeFirebase()
+            }
+        }, 100);
+    };
+</script>
+<body>
+</body>
+</html>

@@ -30,7 +30,6 @@ public class HibernateUtil {
             config.setProperty("hibernate.show_sql", AppConfig.getProperty("hibernate.show_sql"));
             config.setProperty("hibernate.format_sql", AppConfig.getProperty("hibernate.format_sql"));
 
-            config.addAnnotatedClass(Client.class);
             config.addAnnotatedClass(Plan.class);
             config.addAnnotatedClass(Exercise.class);
             config.addAnnotatedClass(ExerciseDetails.class);

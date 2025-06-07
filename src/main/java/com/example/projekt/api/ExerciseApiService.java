@@ -1,19 +1,19 @@
 package com.example.projekt.api;
 
-import com.example.projekt.util.AppConfig;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.logging.HttpLoggingInterceptor;
 
-public class GoogleService {
-    private static GoogleService instance;
+
+public class ExerciseApiService {
+    private static ExerciseApiService instance;
 
     @Getter
-    private final GoogleApi googleApi;
+    private final ExerciseApi exerciseApi;
 
-    public GoogleService() {
+    private ExerciseApiService() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -22,16 +22,17 @@ public class GoogleService {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://identitytoolkit.googleapis.com/")
+                .baseUrl("https://exercisedb-api.vercel.app/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 
-        googleApi = retrofit.create(GoogleApi.class);
+        exerciseApi = retrofit.create(ExerciseApi.class);
     }
 
-    public static GoogleService getInstance() {
-        if (instance == null) instance = new GoogleService();
+    public static synchronized ExerciseApiService getInstance() {
+        if (instance == null) instance = new ExerciseApiService();
         return instance;
     }
+
 }

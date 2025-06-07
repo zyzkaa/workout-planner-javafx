@@ -17,18 +17,18 @@
           maxWidth="400.0" maxHeight="360.0"
           layoutX="100" layoutY="20">
 
-        <Label text="Log in"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+<!--        <Label text="Log in"-->
+<!--               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />-->
+<!---->
+<!--        <TextField fx:id="emailField"-->
+<!--                   promptText="Email"-->
+<!--                   maxWidth="300"-->
+<!--                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />-->
 
-        <TextField fx:id="emailField"
-                   promptText="Email"
-                   maxWidth="300"
-                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />
-
-        <PasswordField fx:id="passwordField"
-                       promptText="Password"
-                       maxWidth="300"
-                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />
+<!--        <PasswordField fx:id="passwordField"-->
+<!--                       promptText="Password"-->
+<!--                       maxWidth="300"-->
+<!--                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;" />-->
 
         <Button fx:id="googleLoginButton"
                 text="Log in with Google"

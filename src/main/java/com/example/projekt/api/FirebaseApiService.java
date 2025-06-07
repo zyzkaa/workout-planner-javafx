@@ -7,13 +7,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FirebaseService {
-    private static FirebaseService instance;
+public class FirebaseApiService {
+    private static FirebaseApiService instance;
 
     @Getter
     private final FirebaseApi firebaseApi;
 
-    public FirebaseService() {
+    public FirebaseApiService() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -30,9 +30,9 @@ public class FirebaseService {
         firebaseApi = retrofit.create(FirebaseApi.class);
     }
 
-    public static FirebaseService getInstance() {
+    public static FirebaseApiService getInstance() {
         if (instance == null) {
-            instance = new FirebaseService();
+            instance = new FirebaseApiService();
         }
         return instance;
     }

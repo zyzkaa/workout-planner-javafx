@@ -7,7 +7,7 @@
 <?import java.net.URL?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projekt.controller.PlanListController"
+      fx:controller="com.example.projekt.controller.ClientsController"
       prefHeight="600.0" prefWidth="800.0"
       style="-fx-background-color: #f5f6fa;">
 
@@ -28,11 +28,7 @@
     </VBox>
 
     <VBox fx:id="chatBox" HBox.hgrow="ALWAYS">
-        <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
-            <VBox fx:id="planDisplay" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10"
-                  style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">
-            </VBox>
-        </ScrollPane>
+
     </VBox>
 
     <stylesheets>

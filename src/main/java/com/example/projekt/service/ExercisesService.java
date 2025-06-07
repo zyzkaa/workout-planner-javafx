@@ -1,10 +1,10 @@
 package com.example.projekt.service;
 
-import com.example.projekt.api.ExerciseService;
+import com.example.projekt.api.ExerciseApi;
+import com.example.projekt.api.ExerciseApiService;
 import com.example.projekt.model.dto.BodyPartsDto;
 import com.example.projekt.model.dto.ExercisePage;
 import com.example.projekt.model.dto.WorkoutResponse;
-import com.example.projekt.model.entity.Exercise;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import retrofit2.Response;
@@ -18,6 +18,8 @@ public class ExercisesService {
     @Getter
     private static ExercisesService INSTANCE = new ExercisesService();
 
+    private final ExerciseApi exerciseApi = ExerciseApiService.getInstance().getExerciseApi();
+
     public ExercisePage getExercisePageResponse(Response<WorkoutResponse<ExercisePage>> response){
         if(!response.isSuccessful()) return null;
 
@@ -29,7 +31,7 @@ public class ExercisesService {
 
     public ExercisePage fetchExercisesBySearch(String search, int limit, int offset){
         try {
-            Response<WorkoutResponse<ExercisePage>> response = ExerciseService.getInstance().getExerciseApi()
+            Response<WorkoutResponse<ExercisePage>> response = exerciseApi
                     .getExercisesBySearch(search, limit, offset * limit).execute();
 
             return  getExercisePageResponse(response);
@@ -41,7 +43,7 @@ public class ExercisesService {
 
     public ExercisePage fetchExercisesByBodyPart(String bodyPart, int limit, int offset){
         try {
-            Response<WorkoutResponse<ExercisePage>> response = ExerciseService.getInstance().getExerciseApi()
+            Response<WorkoutResponse<ExercisePage>> response = exerciseApi
                     .getExercisesByBodyPart(bodyPart, limit, offset * limit).execute();
 
             return  getExercisePageResponse(response);
@@ -55,7 +57,7 @@ public class ExercisesService {
         List<BodyPartsDto> bodyParts = new ArrayList<>();
 
         try {
-            Response<WorkoutResponse<List<BodyPartsDto>>> response = ExerciseService.getInstance().getExerciseApi()
+            Response<WorkoutResponse<List<BodyPartsDto>>> response = exerciseApi
                     .getBodyParts().execute();
 
             if(!response.isSuccessful()) return bodyParts;
