@@ -5,7 +5,7 @@ import com.example.projekt.api.FirebaseApi;
 import com.example.projekt.api.FirebaseApiService;
 import com.example.projekt.api.dto.*;
 import com.example.projekt.util.AppConfig;
-import org.checkerframework.checker.units.qual.A;
+import lombok.Getter;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -16,10 +16,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClientsService {
-
+    @Getter
+    public static final ClientsService instance = new ClientsService();
     private final static FirebaseApi firebaseApi = FirebaseApiService.getInstance().getFirebaseApi();
 
-    public static List<Client> getClients() {
+    public List<Client> getClients() {
         try {
             Response<QueryResponseList<ClientFields>> response = firebaseApi.getCoachClients(
                     AuthSession.getFirebaseLocalId(),
@@ -38,7 +39,7 @@ public class ClientsService {
         }
     }
 
-    private static void addNewCoach(String id, String idToken) throws IOException {
+    private void addNewCoach(String id, String idToken) throws IOException {
         System.out.println("dodawanie");
 
         Map<String, Object> fields = new HashMap<>();
@@ -56,7 +57,7 @@ public class ClientsService {
         if(addResponse.body() == null) throw new RuntimeException();
     }
 
-    public static void loginUser(){
+    public void loginUser(){
         String apiKey = AppConfig.getProperty("firebase.apiKey");
         String idToken = AuthSession.getFirebaseIdToken();
         String uid = AuthSession.getFirebaseLocalId();

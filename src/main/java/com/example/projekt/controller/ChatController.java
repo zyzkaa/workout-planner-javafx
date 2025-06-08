@@ -3,7 +3,6 @@ package com.example.projekt.controller;
 import com.example.projekt.AuthSession;
 import com.example.projekt.JavaBridge;
 import com.example.projekt.api.dto.Message;
-import com.example.projekt.model.dto.ExerciseDto;
 import com.example.projekt.util.AppConfig;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,11 +15,13 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +45,7 @@ public class ChatController {
     private final SimpleStringProperty clientId = new SimpleStringProperty();
     private final ObservableList<Message> messages = FXCollections.observableArrayList();
     private JSObject window;
-    private String coachId = AuthSession.getFirebaseLocalId();
+    private final String coachId = AuthSession.getFirebaseLocalId();
 
     @FXML
     public void initialize() {
@@ -52,19 +53,10 @@ public class ChatController {
         setupButtonAndInput();
         setupMessages();
         setupClientId();
-        setupScrollPane();
     }
 
     private void loadMessages() {
         window.call("getMessages");
-    }
-
-    private void setupScrollPane(){
-        scrollPane.vvalueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal.doubleValue() == 0.0 && oldVal.doubleValue() != 0.0) {
-                System.out.println("Reached top of ScrollPane!");
-            }
-        });
     }
 
     private void setupClientId(){
@@ -83,19 +75,15 @@ public class ChatController {
 
         clientId.addListener((observable, oldValue, newValue) -> {
             if (window == null || newValue == null) return;
-            System.out.println("client id listener");
             JSObject userData = (JSObject) webView.getEngine().executeScript("new Object()");
             userData.setMember("coachId", AuthSession.getFirebaseLocalId());
             userData.setMember("clientId", newValue);
             window.setMember("userData", userData);
-            System.out.println("client id listener 2 " + newValue + AuthSession.getFirebaseLocalId());
             loadMessages();
         });
     }
 
     private void setupWebView(){
-        System.out.println("setupWebView ---------------------------------------------------------------------------------------");
-        System.out.println(getClass().getResource("/web/chat.html"));
         webView.getEngine().load(getClass().getResource("/web/chat.html").toExternalForm());
 
         webView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
@@ -146,12 +134,10 @@ public class ChatController {
     }
 
     public void setClientId(String clientId) {
-        System.out.println("set client id");
         this.clientId.set(clientId);
     }
 
     public void setMessages(List<Message> messages) {
-        System.out.println("set messages");
         messagesBox.getChildren().clear();
         this.messages.clear();
         this.messages.addAll(messages);

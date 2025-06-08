@@ -1,7 +1,6 @@
 package com.example.projekt.api;
 
 import com.example.projekt.api.dto.FirebaseRefreshResponse;
-import com.example.projekt.api.dto.FirebaseSignInResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

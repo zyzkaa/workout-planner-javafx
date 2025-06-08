@@ -46,7 +46,6 @@ public class PlanListController {
 
     @Subscribe
     private void onPlanSaved(PlanSavedEvent event) {
-        System.out.println("Plan Saved event caught");
         getAllPlans();
     }
 
@@ -95,7 +94,6 @@ public class PlanListController {
         Integer planId = (Integer) button.getUserData();
 
         Thread.startVirtualThread(() -> {
-            System.out.println("Generating PDF");
             PlanService.savePdf(planId);
         });
     }

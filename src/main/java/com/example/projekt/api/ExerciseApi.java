@@ -3,7 +3,6 @@ package com.example.projekt.api;
 import com.example.projekt.model.dto.BodyPartsDto;
 import com.example.projekt.model.dto.ExercisePage;
 import com.example.projekt.model.dto.WorkoutResponse;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

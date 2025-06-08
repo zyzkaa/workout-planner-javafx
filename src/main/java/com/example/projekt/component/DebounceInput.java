@@ -4,10 +4,6 @@ import com.example.projekt.event.SearchEvent;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import jdk.jfr.EventType;
-import org.sqlite.util.StringUtils;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class DebounceInput extends TextField {
     private final Class<? extends SearchEvent> eventClass;

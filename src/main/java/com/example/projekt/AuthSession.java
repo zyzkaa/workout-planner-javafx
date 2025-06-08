@@ -1,19 +1,11 @@
 package com.example.projekt;
 
-import com.example.projekt.api.GoogleService;
 import com.example.projekt.api.RefreshTokenService;
 import com.example.projekt.api.dto.FirebaseRefreshResponse;
 import com.example.projekt.api.dto.FirebaseSignInResponse;
-import com.example.projekt.api.dto.GoogleSignInRequest;
-import com.example.projekt.api.dto.GoogleTokenResponse;
 import com.example.projekt.util.AppConfig;
-import lombok.Getter;
-import lombok.Setter;
 import retrofit2.Response;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;

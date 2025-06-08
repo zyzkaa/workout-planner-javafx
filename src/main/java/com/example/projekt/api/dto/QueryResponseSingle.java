@@ -3,7 +3,6 @@ package com.example.projekt.api.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Data
 public class QueryResponseSingle<T> {

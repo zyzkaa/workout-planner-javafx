@@ -7,7 +7,6 @@ import com.example.projekt.api.dto.QueryResponseSingle;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import java.util.List;
 import java.util.Map;
 
 public interface FirebaseApi {
@@ -20,7 +19,6 @@ public interface FirebaseApi {
     @PATCH("databases/(default)/documents/coaches/{id}")
     Call<QueryResponseSingle<CoachFields>> addCoach(
             @Path("id") String id,
-//            @Header("Content-Type") String contentType,
             @Header("Authorization") String bearerToken,
             @Body Map<String, Object> body
     );

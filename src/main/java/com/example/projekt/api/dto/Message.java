@@ -3,7 +3,6 @@ package com.example.projekt.api.dto;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.Map;
 
 @Data
 public class Message {

@@ -9,8 +9,4 @@
         public ExerciseSearchEvent(String value) {
             super(ExerciseSearchEvent.eventType, value);
         }
-
-//        public EventType<ExerciseSearchEvent> getEventType() {
-//            return eventType;
-//        }
     }

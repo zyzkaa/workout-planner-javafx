@@ -1,6 +1,5 @@
 package com.example.projekt.api;
 
-import com.example.projekt.util.AppConfig;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

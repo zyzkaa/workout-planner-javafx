@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;

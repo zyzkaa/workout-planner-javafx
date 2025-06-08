@@ -3,7 +3,6 @@ package com.example.projekt.repository;
 import com.example.projekt.model.entity.Plan;
 import com.example.projekt.util.JpaUtil;
 import lombok.Getter;
-import org.hibernate.annotations.NamedQuery;
 
 import java.util.List;
 

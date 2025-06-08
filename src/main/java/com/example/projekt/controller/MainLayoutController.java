@@ -3,7 +3,6 @@ package com.example.projekt.controller;
 import com.example.projekt.AppEventBus;
 import com.example.projekt.AuthSession;
 import com.example.projekt.event.ChangeViewEvent;
-import com.example.projekt.event.bus.UserLoginEvent;
 import com.example.projekt.event.bus.UserLogoutEvent;
 import com.example.projekt.service.ClientsService;
 import javafx.fxml.FXML;
@@ -18,19 +17,17 @@ public class MainLayoutController {
     private AnchorPane contentPane;
     private String oldView = "";
     private String currentView = "";
+    private final ClientsService clientsService = ClientsService.getInstance();
 
     @FXML
     public void initialize() {
         showWorkouts();
         loginToFirebase();
         setupContentPane();
-
-
     }
 
     private void setupContentPane(){
         contentPane.addEventHandler(ChangeViewEvent.CHANGE_VIEW, event -> {
-            System.out.println(event.getFxmlPath());
             String path = event.getFxmlPath();
 
             oldView = currentView;
@@ -42,7 +39,7 @@ public class MainLayoutController {
     }
 
     private void loginToFirebase() {
-        Thread.startVirtualThread(ClientsService::loginUser);
+        Thread.startVirtualThread(clientsService::loginUser);
     }
 
     private void setContent(String fxmlPath) {

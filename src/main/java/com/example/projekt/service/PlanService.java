@@ -11,8 +11,6 @@ import com.example.projekt.repository.PlanRepository;
 import com.example.projekt.util.AppConfig;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mapper.Mapper;
-import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -64,7 +62,9 @@ public class PlanService {
 
                 Exercise exerciseFetched = exerciseRepository.findById(exercise.getExercise().getExerciseId());
                 if(exerciseFetched == null) {
-                    exerciseFetched = Mapper.fromDto(exercise.getExercise());
+                    exerciseFetched = new Exercise();
+                    exerciseFetched.setId(exercise.getExercise().getExerciseId());
+                    exerciseFetched.setName(exercise.getExercise().getName());
                     exerciseRepository.add(exerciseFetched);
                 }
                 exerciseDetails.setExercise(exerciseFetched);

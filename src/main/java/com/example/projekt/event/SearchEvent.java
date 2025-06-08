@@ -13,5 +13,4 @@ public abstract class SearchEvent extends Event {
         this.value = value;
     }
 
-//    public abstract EventType<? extends SearchEvent> getEventType();
 }

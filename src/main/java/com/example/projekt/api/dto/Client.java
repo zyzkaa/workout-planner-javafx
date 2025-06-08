@@ -3,7 +3,6 @@ package com.example.projekt.api.dto;
 import lombok.Getter;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Getter
 public class Client {

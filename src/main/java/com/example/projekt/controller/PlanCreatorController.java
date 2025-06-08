@@ -37,8 +37,14 @@ public class PlanCreatorController {
     private WeekDay currentDay;
     private ExercisesListController exercisesListController;
     private final IntegerProperty selectedDayNumber = new SimpleIntegerProperty();
-
     private final PlanService planService = PlanService.getInstance();
+
+    @FXML
+    public void initialize() {
+        planTitleField.getStyleClass().add("styled-text-field");
+        initializeDays();
+        addExerciseList();
+    }
 
     private void initializeDays(){
         Arrays.stream(WeekDay.values()).forEach(day -> {
@@ -79,13 +85,7 @@ public class PlanCreatorController {
     }
 
 
-    @FXML
-    public void initialize() {
-        planTitleField.getStyleClass().add("styled-text-field");
 
-        initializeDays();
-        addExerciseList();
-    }
 
     private VBox createDayPane(WeekDay day) {
         Label titleLabel = new Label(day.getDisplayName());

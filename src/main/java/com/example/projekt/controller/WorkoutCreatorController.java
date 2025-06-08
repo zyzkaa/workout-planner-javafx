@@ -24,9 +24,41 @@ public class WorkoutCreatorController {
     @FXML
     private Text text;
 
-
     private String initialText;
     private final ObservableList<ExerciseDto> exercises = FXCollections.observableArrayList();
+
+    public void initialize() {
+        text.setText(initialText);
+        setupExercises();
+    }
+
+    private void setupExercises(){
+        exercises.addListener((ListChangeListener<ExerciseDto>) change -> {
+            while(change.next()) {
+                if(change.wasAdded()) {
+                    List<? extends ExerciseDto> addedExercises = change.getAddedSubList();
+                    if(addedExercises.size() > 1) {
+                        throw new IllegalStateException("More than one exercise was added");
+                    }
+                    ExerciseDto exercise = addedExercises.getFirst();
+                    ExerciseInput newExerciseInput = new ExerciseInput(exercise.getName());
+
+                    newExerciseInput.setOnDelete(() -> exercises.remove(exercise));
+                    exercisesBox.getChildren().add(newExerciseInput);
+                }
+                if(change.wasRemoved()) {
+                    List<? extends ExerciseDto> removedExercises = change.getRemoved();
+                    if(removedExercises.size() > 1) {
+                        throw new IllegalStateException("More than one exercise was removed");
+                    }
+                    ExerciseDto removedExercise = removedExercises.getFirst();
+                    exercisesBox.getChildren().removeIf(node ->
+                            node instanceof ExerciseInput && ((ExerciseInput) node).getExerciseName().equals(removedExercise.getName())
+                    );
+                }
+            }
+        });
+    }
 
     public void setText(String text) {
         this.text.setText(text);
@@ -45,10 +77,6 @@ public class WorkoutCreatorController {
             return;
         }
         exercises.add(newExercise);
-    }
-
-    public List<ExerciseDto> getExercises(){
-        return exercises;
     }
 
     public boolean validate(){
@@ -79,36 +107,6 @@ public class WorkoutCreatorController {
                     return new ExerciseWithData(exercises.get(index), currentNode.getSets(), currentNode.getReps());
                 })
                 .collect(Collectors.toList());
-    }
-
-    public void initialize() {
-        text.setText(initialText);
-
-        exercises.addListener((ListChangeListener<ExerciseDto>) change -> {
-            while(change.next()) {
-                if(change.wasAdded()) {
-                    List<? extends ExerciseDto> addedExercises = change.getAddedSubList();
-                    if(addedExercises.size() > 1) {
-                        throw new IllegalStateException("More than one exercise was added");
-                    }
-                    ExerciseDto exercise = addedExercises.getFirst();
-                    ExerciseInput newExerciseInput = new ExerciseInput(exercise.getName());
-
-                    newExerciseInput.setOnDelete(() -> exercises.remove(exercise));
-                    exercisesBox.getChildren().add(newExerciseInput);
-                }
-                if(change.wasRemoved()) {
-                    List<? extends ExerciseDto> removedExercises = change.getRemoved();
-                    if(removedExercises.size() > 1) {
-                        throw new IllegalStateException("More than one exercise was removed");
-                    }
-                    ExerciseDto removedExercise = removedExercises.getFirst();
-                    exercisesBox.getChildren().removeIf(node ->
-                            node instanceof ExerciseInput && ((ExerciseInput) node).getExerciseName().equals(removedExercise.getName())
-                    );
-                }
-            }
-        });
     }
 
     public boolean isEmpty() {

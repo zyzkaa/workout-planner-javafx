@@ -14,7 +14,10 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class GoogleCallbackServer {
     private boolean tokenAlreadyExchanged = false;
@@ -87,7 +90,6 @@ public class GoogleCallbackServer {
             ).execute();
 
             if (response.isSuccessful()) {
-                System.out.println(response.body());
                 return response.body();
             }
         } catch (IOException e){

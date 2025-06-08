@@ -26,6 +26,8 @@ public class ClientsController {
 
     private SimpleStringProperty clientId = new SimpleStringProperty();
     private ChatController chatController;
+    public static final ClientsService clientsService = new ClientsService();
+
 
     @FXML
     public void initialize() {
@@ -75,7 +77,6 @@ public class ClientsController {
     }
 
     private void handleSelectClient(String clientId) {
-        System.out.println("handle select client");
         changeClientBoxStyle(clientId);
         chatController.setClientId(Arrays.stream(clientId.split("/")).toList().getLast());
     }
@@ -98,7 +99,7 @@ public class ClientsController {
 
     private void setClients(){
         Thread.startVirtualThread(() -> {
-            var fetched = ClientsService.getClients();
+            var fetched = clientsService.getClients();
             fetched.sort(Comparator.comparing(Client::getLastMessage).reversed());
             Platform.runLater(() -> clients.setAll(fetched));
         });

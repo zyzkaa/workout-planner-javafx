@@ -4,10 +4,10 @@ import com.example.projekt.api.dto.Message;
 import com.example.projekt.api.dto.MessageResponse;
 import com.example.projekt.controller.ChatController;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class JavaBridge {
     private final ChatController chatController;
