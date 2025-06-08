@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.web.WebView?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      prefHeight="400.0" prefWidth="600.0"
-      fx:id="root">
+      prefHeight="600.0" prefWidth="600.0"
+      fx:id="root"
+      fx:controller="com.example.projekt.controller.ChatController"
+      styleClass="chat-main-container">
 
-    <WebView fx:id="webView">
-
+    <WebView fx:id="webView" prefHeight="0" maxHeight="0"
+             visible="false" managed="false">
+        <VBox.margin>
+            <Insets bottom="10"/>
+        </VBox.margin>
     </WebView>
 
-<!--    <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">-->
-<!--        <VBox fx:id="chatDisplay" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10"-->
-<!--              style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 10;">-->
-<!--        </VBox>-->
-<!--    </ScrollPane>-->
+    <ScrollPane fx:id="scrollPane"
+                fitToWidth="true"
+                styleClass="messages-scroll-pane"
+                VBox.vgrow="ALWAYS"
+                pannable="true"
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+    minHeight="800">
 
-    <VBox fx:id="messagesBox" minHeight="500" minWidth="500" style="-fx-background-color: #a63e3e">
-
-    </VBox>
-    <VBox>
-        <TextField fx:id="chatInput" alignment="BOTTOM_LEFT">
-
-        </TextField>
-        <Button fx:id="sendButton">
-
-        </Button>
-    </VBox>
+        <VBox fx:id="messagesBox"
+              spacing="8"
+              fillWidth="true"
+              styleClass="messages-container">
+            <padding>
+                <Insets top="15" left="15" right="15" bottom="15"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
 
 
+
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="input-section">
+        <padding>
+            <Insets top="15" left="15" right="15" bottom="15"/>
+        </padding>
+
+        <TextField fx:id="chatInput" HBox.hgrow="ALWAYS"
+                   promptText="Type your message..."
+                   styleClass="chat-input-field"/>
+
+        <Button fx:id="sendButton" text="Send"
+                styleClass="send-button" minWidth="80"/>
+    </HBox>
 </VBox>

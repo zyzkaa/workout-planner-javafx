@@ -83,6 +83,24 @@ public class PlanListController {
         return button;
     }
 
+    private Button getPdfButton(){
+        Button button = new Button("Generate PDF");
+        button.getStyleClass().add("generate-button");
+        button.setOnAction(this::handleGeneratePdf);
+        return button;
+    }
+
+    private void handleGeneratePdf(ActionEvent actionEvent){
+        Button button = (Button) actionEvent.getSource();
+        Integer planId = (Integer) button.getUserData();
+
+        Thread.startVirtualThread(() -> {
+            System.out.println("Generating PDF");
+            PlanService.savePdf(planId);
+        });
+    }
+
+
     private Label getPlanNameLabel(String name){
         Label label = new Label(name);
         label.setFont(Font.font("System", FontWeight.BOLD, 28));
@@ -158,8 +176,11 @@ public class PlanListController {
             Button deleteButton = getDeleteButton();
             deleteButton.setUserData(plan.getId());
 
+            Button generateButton = getPdfButton();
+            generateButton.setUserData(plan.getId());
+
             HBox.setHgrow(label, Priority.ALWAYS);
-            row.getChildren().addAll(label, region, deleteButton, showButton);
+            row.getChildren().addAll(label, region, generateButton, deleteButton, showButton);
             this.planList.getChildren().add(row);
         });
     }

@@ -8,10 +8,20 @@ import com.example.projekt.model.entity.Plan;
 import com.example.projekt.model.entity.Workout;
 import com.example.projekt.repository.ExerciseRepository;
 import com.example.projekt.repository.PlanRepository;
+import com.example.projekt.util.AppConfig;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mapper.Mapper;
+import org.apache.commons.io.FileUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @NoArgsConstructor
@@ -19,8 +29,8 @@ public class PlanService {
     @Getter
     private final static PlanService instance = new PlanService();
 
-    private final ExerciseRepository exerciseRepository = ExerciseRepository.getINSTANCE();
-    private final PlanRepository planRepository = PlanRepository.getINSTANCE();
+    private static final ExerciseRepository exerciseRepository = ExerciseRepository.getINSTANCE();
+    private static final PlanRepository planRepository = PlanRepository.getINSTANCE();
 
     public List<Plan> getAll() {
         return planRepository.findAll();
@@ -69,4 +79,93 @@ public class PlanService {
         planRepository.add(plan);
     }
 
+    public static void savePdf(int planId) {
+        Plan plan = planRepository.findById(planId);
+        if (plan == null) return;
+
+        String title = plan.getTitle();
+        String filePath = AppConfig.getProperty("pdf.path") + title + ".pdf";
+
+        try (PDDocument document = new PDDocument()) {
+            PDFont titleFont = PDType1Font.COURIER;
+            PDFont dayFont = PDType1Font.COURIER_BOLD;
+            PDFont exerciseFont = PDType1Font.COURIER;
+
+            int titleFontSize = 20;
+            int dayFontSize = 17;
+            int exerciseFontSize = 13;
+
+            float margin = 50;
+            float leading = 20;
+
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
+            PDPageContentStream content = new PDPageContentStream(document, page);
+
+            float y = page.getMediaBox().getHeight() - margin;
+
+            content.beginText();
+            content.setFont(titleFont, titleFontSize);
+
+            float textWidth = titleFont.getStringWidth(title) / 1000 * titleFontSize;
+            float pageWidth = page.getMediaBox().getWidth();
+            float startX = (pageWidth - textWidth) / 2;
+            content.newLineAtOffset(startX, y);
+            content.showText(title);
+            y -= leading;
+            content.newLineAtOffset(margin - startX, -leading);
+
+            for (Workout workout : plan.getWorkouts().stream()
+                    .sorted(Comparator.comparing(w -> w.getDay().getNumber())).toList()) {
+                if (y < margin + leading * 2) {
+                    content.endText();
+                    content.close();
+                    page = new PDPage(PDRectangle.A4);
+                    document.addPage(page);
+                    content = new PDPageContentStream(document, page);
+                    content.beginText();
+                    content.setFont(titleFont, titleFontSize);
+                    y = page.getMediaBox().getHeight() - margin;
+                    content.newLineAtOffset(margin, y);
+                }
+
+                content.setFont(dayFont, dayFontSize);
+                content.showText(workout.getDay().getDisplayName());
+                y -= leading;
+                content.newLineAtOffset(0, -leading);
+
+                for (ExerciseDetails exercise : workout.getExercises()) {
+                    if (y < margin + leading) {
+                        content.endText();
+                        content.close();
+                        page = new PDPage(PDRectangle.A4);
+                        document.addPage(page);
+                        content = new PDPageContentStream(document, page);
+                        content.beginText();
+                        y = page.getMediaBox().getHeight() - margin;
+                        content.newLineAtOffset(margin, y);
+                    }
+
+                    content.setFont(exerciseFont, exerciseFontSize);
+                    String line = exercise.getExercise().getName() + ": " +
+                            exercise.getSets() + " x " + exercise.getRepetitions();
+                    content.showText(line);
+                    y -= leading * 2;
+                    content.newLineAtOffset(0, -leading * 2);
+                }
+
+            }
+
+            content.endText();
+            content.close();
+
+            File file = new File(filePath);
+            file.getParentFile().mkdirs();
+            document.save(file);
+            System.out.println("PDF saved at: " + file.getAbsolutePath());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

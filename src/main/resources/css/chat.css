@@ -1,0 +1,147 @@
+/* Main Container Styles */
+.main-container {
+    -fx-background-color: #f8f9fa;
+}
+
+/* Clients Sidebar Styles */
+.clients-sidebar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e1e8ed;
+    -fx-border-width: 0 1 0 0;
+}
+
+.clients-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.clients-list-container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #e1e8ed;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+/* Client Card Styles */
+.client-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e1e8ed;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 15 20 15 20;
+    -fx-cursor: hand;
+}
+
+.client-card:hover {
+    -fx-background-color: #f8f9fa;
+}
+
+.client-card-selected {
+    -fx-background-color: linear-gradient(to right, #e3f2fd, #ffffff);
+    -fx-border-color: #3498db;
+    -fx-border-width: 0 0 0 3;
+    -fx-padding: 15 20 15 17;
+    -fx-cursor: hand;
+}
+
+.client-name-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.client-status-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #27ae60;
+    -fx-font-style: italic;
+}
+
+/* Main Separator */
+.main-separator .line {
+    -fx-background-color: #e1e8ed;
+    -fx-pref-width: 1;
+}
+
+/* Chat Container Styles */
+.chat-container {
+    -fx-background-color: #ffffff;
+}
+
+.chat-main-container {
+    -fx-background-color: #ffffff;
+    -fx-spacing: 0;
+}
+
+/* Messages Section */
+.messages-scroll-pane {
+    -fx-background-color: #f8f9fa;
+    -fx-background: #f8f9fa;
+}
+
+.messages-container {
+    -fx-background-color: #f8f9fa;
+    -fx-min-height: 300;
+}
+
+.chat-message {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-padding: 12 16 12 16;
+    -fx-border-color: #e1e8ed;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-max-width: 400;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 2, 0, 0, 1);
+}
+
+/* Input Section */
+.input-section {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e1e8ed;
+    -fx-border-width: 1 0 0 0;
+}
+
+.chat-input-field {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 12 16 12 16;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #7f8c8d;
+}
+
+.chat-input-field:focused {
+    -fx-border-color: #3498db;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.2), 4, 0, 0, 1);
+}
+
+.send-button {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.send-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #5dade2, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2);
+}
+
+.send-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #2980b9, #21618c);
+}
+
+.send-button:disabled {
+    -fx-background-color: #bdc3c7;
+    -fx-text-fill: #7f8c8d;
+    -fx-effect: none;
+    -fx-cursor: default;
+}

@@ -1,7 +1,10 @@
 package com.example.projekt.controller;
 
+import com.example.projekt.AppEventBus;
 import com.example.projekt.AuthSession;
 import com.example.projekt.event.ChangeViewEvent;
+import com.example.projekt.event.bus.UserLoginEvent;
+import com.example.projekt.event.bus.UserLogoutEvent;
 import com.example.projekt.service.ClientsService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +21,14 @@ public class MainLayoutController {
 
     @FXML
     public void initialize() {
-        showDashboard();
+        showWorkouts();
         loginToFirebase();
+        setupContentPane();
 
+
+    }
+
+    private void setupContentPane(){
         contentPane.addEventHandler(ChangeViewEvent.CHANGE_VIEW, event -> {
             System.out.println(event.getFxmlPath());
             String path = event.getFxmlPath();
@@ -55,11 +63,6 @@ public class MainLayoutController {
     }
 
     @FXML
-    private void showDashboard() {
-        setContent("/view/dashboard-view.fxml");
-    }
-
-    @FXML
     private void showClients() {
         setContent("/view/clients-view.fxml");
     }
@@ -72,6 +75,6 @@ public class MainLayoutController {
     @FXML
     private void handleLogout() {
         AuthSession.clear();
-        setContent("/view/login-view.fxml");
+        AppEventBus.getAsyncBus().post(new UserLogoutEvent());
     }
 }

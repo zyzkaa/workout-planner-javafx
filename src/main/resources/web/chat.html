@@ -29,6 +29,7 @@
 
             if(!initialized) return
 
+
             // sendMessageToJava("CoachId: " + userData.coachId);
             // sendMessageToJava("ClientId: " + userData.clientId);
 
@@ -37,7 +38,8 @@
                 .doc(userData.coachId)
                 .collection("users")
                 .doc(userData.clientId)
-                .collection("chat");
+                .collection("chat")
+                .orderBy("date", "desc")
 
             // sendMessageToJava("Starting Firestore query...");
             const snapshot = await messagesRef.get();
@@ -54,21 +56,14 @@
                 data: messages
             }));
 
-            listenForMessages()
+            listenForMessages(messagesRef)
 
         } catch (error) {
             setMessages("Error in getMessages: " + error.message);
         }
     }
 
-    listenForMessages = function () {
-        const messagesRef = firebase.firestore()
-            .collection("coaches")
-            .doc(userData.coachId)
-            .collection("users")
-            .doc(userData.clientId)
-            .collection("chat")
-
+    listenForMessages = function (messagesRef) {
         messagesRef.onSnapshot(snapshot => {
             const messages = snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -82,13 +77,13 @@
         });
     };
 
-    window.sendMessage = async function (content){
+    window.sendMessage = async function (content, sender){
         if (!content || !content.trim()) return;
         if (!userData || !userData.coachId || !userData.clientId || !db) return;
 
         const message = {
             content: content,
-            sender: userData.clientId,
+            sender: sender,
             date: firebase.firestore.FieldValue.serverTimestamp()
         };
 

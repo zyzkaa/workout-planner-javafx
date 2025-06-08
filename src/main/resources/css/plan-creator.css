@@ -107,7 +107,27 @@
     -fx-background-color: linear-gradient(to bottom, #c0392b, #a93226);
 }
 
-/* Save Button Styles */
+.generate-button {
+    -fx-background-color: linear-gradient(to bottom, #9b59b6, #8e44ad);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-pref-height: 35;
+}
+
+.generate-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #af7ac5, #9b59b6);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2);
+}
+
+.generate-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #8e44ad, #6c3483); }
+
+
 .save-button {
     -fx-background-color: linear-gradient(to bottom, #27ae60, #229954);
     -fx-text-fill: white;

@@ -2,6 +2,7 @@ package com.example.projekt.util;
 
 import com.example.projekt.AppEventBus;
 import com.example.projekt.event.bus.UserLoginEvent;
+import com.example.projekt.event.bus.UserLogoutEvent;
 import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -36,5 +37,10 @@ public class SceneManager {
     @Subscribe
     public void onUserLogin(UserLoginEvent event) {
         changeScene("/view/main-layout.fxml");
+    }
+
+    @Subscribe
+    public void onUserLogout(UserLogoutEvent event) {
+        changeScene("/view/login-view.fxml");
     }
 }
