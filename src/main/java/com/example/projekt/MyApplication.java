@@ -2,6 +2,7 @@ package com.example.projekt;
 
 import com.example.projekt.util.SceneManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -27,6 +28,10 @@ public class MyApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), width, height);
         SceneManager sceneManager = new SceneManager(stage);
 
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.setTitle("Gym plan creator");
         stage.setScene(scene);
         stage.show();
